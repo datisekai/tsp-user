@@ -1,5 +1,4 @@
 import { confirmDialog } from "primereact/confirmdialog";
-import React from "react";
 
 const defaultConfirm = {
   message: "Bạn có chắc chắn muốn xoá?",
@@ -11,7 +10,7 @@ const defaultConfirm = {
   onAccept: () => {},
   onReject: () => {},
 };
-const useConfirm = () => {
+export const useConfirm = () => {
   const onConfirm = (data?: {
     message?: string;
     header?: string;
@@ -32,5 +31,3 @@ const useConfirm = () => {
 
   return { onConfirm };
 };
-
-export default useConfirm;

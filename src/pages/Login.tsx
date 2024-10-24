@@ -25,26 +25,6 @@ const Login = () => {
     }
   }, [token]);
 
-  const onSubmit = async (data: { code: string; password: string }) => {
-    const result = login(data.code, data.password);
-    if (!result) {
-      return showToast({
-        severity: "danger",
-        summary: "Thông báo",
-        message: "Sai tài khoản hoặc mật khẩu",
-        life: 3000,
-      });
-    }
-
-    showToast({
-      severity: "success",
-      summary: "Thông báo",
-      message: "Đăng nhập thành công",
-      life: 3000,
-    });
-    navigate(pathNames.HOME);
-  };
-
   const schema = yup
     .object()
     .shape({
@@ -63,6 +43,25 @@ const Login = () => {
       code: "",
       password: "",
     },
+  });
+
+  const onSubmit = handleSubmit((data) => {
+    const result = login(data.code, data.password);
+    if (!result) {
+      return showToast({
+        severity: "danger",
+        summary: "Thông báo",
+        message: "Sai tài khoản hoặc mật khẩu",
+        life: 3000,
+      });
+    }
+
+    showToast({
+      severity: "success",
+      summary: "Thông báo",
+      message: "Đăng nhập thành công",
+      life: 3000,
+    });
   });
 
   return (
@@ -94,7 +93,7 @@ const Login = () => {
                 Đăng nhập
               </h2>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={onSubmit}>
               <div className="tw-mb-8">
                 <div className="tw-flex tw-flex-wrap tw-align-items-center">
                   <div className="p-inputgroup flex-1">
@@ -148,6 +147,7 @@ const Login = () => {
                 <Button
                   loading={isLoadingApi}
                   label="Đăng nhập"
+                  type="submit"
                   className="tw-border-white tw-w-full"
                 />
               </div>

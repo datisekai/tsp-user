@@ -9,7 +9,6 @@ interface IState {
 
 export const useUserStore = create<IState>((set) => ({
   user: {} as IUser,
-  permissions: [],
   users: [],
   isLoadingUsers: false,
   total: 0,
@@ -17,11 +16,8 @@ export const useUserStore = create<IState>((set) => ({
     try {
       const resp = await UserService.getMe();
       const user = resp.user as IUser;
-      const permissions = user.role.permissions.map(
-        (item) => `${item.resource}:${item.action}`
-      );
 
-      set((state) => ({ ...state, user, permissions }));
+      set((state) => ({ ...state, user }));
     } catch (error) {
       console.log(error);
     }

@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useCommonStore } from "../stores";
 
-const Home = () => {
+const Grade = () => {
   const { setHeaderActions, resetActions, setHeaderTitle } = useCommonStore();
 
   useEffect(() => {
-    setHeaderTitle("Trang chủ");
+    setHeaderTitle("Bảng điểm");
     setHeaderActions([
       {
         title: "Tạo",
@@ -20,8 +20,7 @@ const Home = () => {
       resetActions();
     };
   }, []);
-
-  return <div>Home</div>;
+  return <div>Grade</div>;
 };
 
-export default Home;
+export default Grade;

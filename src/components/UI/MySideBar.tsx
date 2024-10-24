@@ -1,8 +1,10 @@
 import { Avatar } from "primereact/avatar";
 import { Ripple } from "primereact/ripple";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { sidebarData } from "../../constants";
+import { useLocation, useNavigate } from "react-router-dom";
+import { sidebarBottom, sidebarData } from "../../constants";
+import { getRandomAvatar } from "../../utils";
+import { useUserStore } from "../../stores";
 
 interface IMySideBar {
   isSidebarVisible: boolean;
@@ -21,6 +23,9 @@ const MySideBar: React.FC<IMySideBar> = ({
 }) => {
   const navigate = useNavigate();
   const [expandedMenus, setExpandedMenus] = useState<ExpandedMenus>({});
+  const { pathname } = useLocation();
+  const { user } = useUserStore();
+  console.log("🚀 ~ user:", user);
   // console.log(user);
 
   const handleExpandClick = (index: number) => {
@@ -64,7 +69,7 @@ const MySideBar: React.FC<IMySideBar> = ({
           )}
         </div>
         <div className="tw-overflow-y-auto tw-flex-1">
-          <ul className="tw-list-none tw-p-3 tw-m-0">
+          <ul className="tw-list-none tw-p-3 tw-space-y-1 tw-m-0">
             {sidebarData.map((item, index) => (
               <li key={index}>
                 <div
@@ -73,8 +78,13 @@ const MySideBar: React.FC<IMySideBar> = ({
                       ? handleExpandClick(index)
                       : handleMenuItemClick(item?.path)
                   }
-                  className="tw-p-ripple tw-p-3 tw-flex tw-items-center tw-justify-between tw-text-600 tw-cursor-pointer hover:tw-bg-gray-200 tw-transition-colors tw-duration-200"
+                  className={`tw-p-ripple tw-p-3 tw-flex tw-items-center  tw-text-600 tw-cursor-pointer ${
+                    item.path && pathname.includes(item.path)
+                      ? "bg-primary"
+                      : "hover:bg-primary"
+                  } tw-transition-colors tw-duration-200"`}
                 >
+                  <i className={`${item.icon} tw-mr-2`}></i>
                   <span className="tw-font-medium">{item.title}</span>
                   {item.children && item.children.length > 0 && (
                     <i
@@ -108,16 +118,65 @@ const MySideBar: React.FC<IMySideBar> = ({
           </ul>
         </div>
         <div className="tw-mt-auto">
-          <hr className="tw-mb-3 tw-mx-3 tw-border-top-1 tw-border-none tw-surface-border" />
+          <ul className="tw-list-none tw-p-3 tw-space-y-1 tw-m-0">
+            {sidebarBottom.map((item, index) => (
+              <li key={index}>
+                <div
+                  onClick={() =>
+                    item.children && item.children.length > 0
+                      ? handleExpandClick(index)
+                      : handleMenuItemClick(item?.path)
+                  }
+                  className={`tw-p-ripple tw-p-3 tw-flex tw-items-center  tw-text-600 tw-cursor-pointer ${
+                    item.path && pathname.includes(item.path)
+                      ? "bg-primary"
+                      : "hover:bg-primary"
+                  } tw-transition-colors tw-duration-200"`}
+                >
+                  <i className={`${item.icon} tw-mr-2`}></i>
+                  <span className="tw-font-medium">{item.title}</span>
+                  {item.children && item.children.length > 0 && (
+                    <i
+                      className={`pi pi-chevron-down tw-transition-transform tw-duration-300 ${
+                        expandedMenus[index] ? "tw-rotate-180" : ""
+                      }`}
+                    ></i>
+                  )}
+                  <Ripple />
+                </div>
+                <ul
+                  className={`tw-list-none tw-p-0 tw-m-0 tw-overflow-hidden tw-transition-max-height tw-duration-300 ${
+                    expandedMenus[index] ? "tw-max-h-40" : "tw-max-h-0"
+                  }`}
+                >
+                  {item?.children?.map((child, childIndex) => (
+                    <li className="ml-2" key={childIndex}>
+                      <div
+                        onClick={() => handleMenuItemClick(child?.path)}
+                        className="tw-p-ripple tw-flex tw-items-center tw-cursor-pointer tw-p-3 tw-border-round tw-text-700 hover:tw-bg-gray-200 tw-transition-colors tw-duration-200 tw-w-full"
+                      >
+                        <i className={`${child.icon} tw-mr-2`}></i>
+                        <span className="tw-font-medium">{child.title}</span>
+                        <Ripple />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
           <a className="tw-m-3 tw-flex tw-items-center tw-cursor-pointer tw-gap-2 tw-border-round tw-text-700 hover:tw-surface-100 tw-transition-duration-150 tw-transition-colors tw-p-ripple">
-            <span className="tw-inline-flex tw-items-center tw-gap-2">
+            <span className="tw-flex tw-items-center tw-gap-2">
               <Avatar
-                image="/images/logo.png"
+                image={getRandomAvatar(user.avatar)}
                 size="xlarge"
                 className="tw-object-cover tw-object-top"
                 shape="circle"
               />
-              <span className="tw-font-bold">Amy Elsner</span>
+              <div>
+                <div className="tw-font-bold">{user?.name || "Chưa có"}</div>
+                <div>{user.code}</div>
+              </div>
             </span>
           </a>
         </div>

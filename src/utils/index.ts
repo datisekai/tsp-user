@@ -1,5 +1,6 @@
 export * from "./upload-file";
 export * from "./local-store";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 export function randomString(length: number) {
   let result = "";
@@ -13,3 +14,16 @@ export function randomString(length: number) {
   }
   return result;
 }
+
+export function getRandomAvatar(name?: string) {
+  return `https://api.dicebear.com/9.x/adventurer/svg?seed=${name || "SGU"}`;
+}
+
+export const getDeviceId = async () => {
+  return new Promise((resolve, reject) => {
+    return FingerprintJS.load()
+      .then((fp) => fp.get())
+      .then((res) => resolve(res.visitorId))
+      .catch(() => reject(""));
+  });
+};

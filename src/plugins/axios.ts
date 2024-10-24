@@ -28,11 +28,11 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    // if (error.response?.status === 401 || error.response?.status === 403) {
-    //   removeLocalItem(localKey.TOKEN);
-    //   window.location.replace(pathNames.HOME);
-    //   return;
-    // }
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      removeLocalItem(localKey.TOKEN);
+      window.location.replace(pathNames.LOGIN);
+      return;
+    }
     return error.response?.data;
   }
 );

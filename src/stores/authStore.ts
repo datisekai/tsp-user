@@ -1,18 +1,25 @@
 import { create } from "zustand";
 import { localKey } from "../constants";
 import { AuthService } from "../services";
-import { getObjectLocalData, setObjectLocalData } from "../utils";
+import {
+  getDeviceId,
+  getObjectLocalData,
+  removeLocalItem,
+  setObjectLocalData,
+} from "../utils";
 import { useUserStore } from "./userStore";
 
 interface IState {
   token: string;
   login: (code: string, password: string) => Promise<boolean>;
+  logout: () => void;
 }
 
 export const useAuthStore = create<IState>((set) => ({
   token: getObjectLocalData(localKey.TOKEN) || "",
   login: async (code: string, password: string) => {
-    const result = await AuthService.login(code, password);
+    const deviceId = await getDeviceId();
+    const result = await AuthService.login(code, password, deviceId);
     if (result) {
       const token = result.accessToken;
       setObjectLocalData(localKey.TOKEN, token);
@@ -21,5 +28,9 @@ export const useAuthStore = create<IState>((set) => ({
     }
 
     return !!result;
+  },
+  logout: () => {
+    removeLocalItem(localKey.TOKEN);
+    set((state) => ({ ...state, token: "" }));
   },
 }));

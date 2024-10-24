@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useCommonStore } from "../stores";
 
-const Home = () => {
+const Letter = () => {
   const { setHeaderActions, resetActions, setHeaderTitle } = useCommonStore();
 
   useEffect(() => {
-    setHeaderTitle("Trang chủ");
+    setHeaderTitle("Đơn từ");
     setHeaderActions([
       {
         title: "Tạo",
@@ -20,8 +20,7 @@ const Home = () => {
       resetActions();
     };
   }, []);
-
-  return <div>Home</div>;
+  return <div>Letter</div>;
 };
 
-export default Home;
+export default Letter;
