@@ -5,26 +5,23 @@ import MyFooterAction from "../components/UI/MyFooterAction";
 import MyHeader from "../components/UI/MyHeader";
 import MySideBar from "../components/UI/MySideBar";
 import { pathNames } from "../constants";
-import { useAuthStore, useCommonStore } from "../stores";
-import { useUserStore } from "../stores/userStore";
+import { useAuthStore } from "../stores";
 import { useSocketStore } from "../stores/socketStore";
+import { useUserStore } from "../stores/userStore";
 
 const AuthLayout = () => {
-
   const [isSidebarVisible, setIsSidebarVisible] = useState(
     window.innerWidth >= 768
   );
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const { user, permissions, getMe } = useUserStore()
-  const { token } = useAuthStore()
-  const navigate = useNavigate()
-  const { connectSocket, disconnectSocket } = useSocketStore()
-  console.log('user', user);
-  console.log('permissions', permissions);
+  const { user, getMe } = useUserStore();
+  const { token } = useAuthStore();
+  const navigate = useNavigate();
+  const { connectSocket, disconnectSocket } = useSocketStore();
 
   useEffect(() => {
     if (!token) {
-      return navigate(pathNames.LOGIN)
+      return navigate(pathNames.LOGIN);
     }
     const handleResize = () => {
       setIsSidebarVisible(window.innerWidth >= 768);
@@ -34,17 +31,15 @@ const AuthLayout = () => {
     window.addEventListener("resize", handleResize);
     handleResize();
 
-    getMe()
+    getMe();
 
-    connectSocket()
+    connectSocket();
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      disconnectSocket()
+      window.removeEventListener("resize", handleResize);
+      disconnectSocket();
     };
   }, []);
-
-
 
   const handleCloseSidebar = () => {
     setIsSidebarVisible(false);
@@ -54,9 +49,11 @@ const AuthLayout = () => {
   };
 
   if (!user || Object.keys(user).length == 0) {
-    return <div className="tw-fixed tw-inset-0  tw-flex tw-justify-center tw-items-center">
-      <ProgressSpinner />
-    </div>
+    return (
+      <div className="tw-fixed tw-inset-0  tw-flex tw-justify-center tw-items-center">
+        <ProgressSpinner />
+      </div>
+    );
   }
 
   return (
@@ -72,14 +69,14 @@ const AuthLayout = () => {
           toggleSidebar={toggleSidebar}
         />
         <main
-          className={`tw-flex-1 tw-p-4 tw-pt-24 tw-pb-24 tw-transition-all tw-duration-300 ${isSidebarVisible ? "md:tw-ml-80" : "md:tw-ml-0"
-            }`}
+          className={`tw-flex-1 tw-p-4 tw-pt-24 tw-pb-24 tw-transition-all tw-duration-300 ${
+            isSidebarVisible ? "md:tw-ml-80" : "md:tw-ml-0"
+          }`}
         >
           <Outlet />
         </main>
         <MyFooterAction isSidebarVisible={isSidebarVisible} />
       </div>
-
     </div>
   );
 };

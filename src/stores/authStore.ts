@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { assignPermissions, localKey, users } from "../constants";
+import { localKey } from "../constants";
 import { AuthService } from "../services";
-import { useUserStore } from "./userStore";
 import { getObjectLocalData, setObjectLocalData } from "../utils";
+import { useUserStore } from "./userStore";
 
 interface IState {
   token: string;
