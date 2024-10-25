@@ -20,8 +20,8 @@ FROM nginx:alpine
 # Copy the built files from the previous stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 4173 instead of the default port 80
-EXPOSE 4173
+# Expose port 80 (default for Nginx)
+EXPOSE 80
 
-# Update Nginx configuration (if needed) or expose correct port in docker-compose
+# CMD to run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]

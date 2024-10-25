@@ -7,10 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: react-app
     ports:
-      - "4173:4173" # Expose port 4173
+      - "4173:80" # Expose port 80 of the container to port 4173 of the host
     restart: always
-    volumes:
-      - .:/app
-      - /app/node_modules
     environment:
       NODE_ENV: production
