@@ -1,5 +1,5 @@
 #!/bin/bash
-
+git pull
 # Đặt tên cho image
 IMAGE_NAME="tsp-user"
 
@@ -9,8 +9,10 @@ docker build -t $IMAGE_NAME .
 # Tạo container tạm thời để sao chép file
 CONTAINER_ID=$(docker create $IMAGE_NAME)
 
+rm -rf ~/public/tsp-user
+
 # Sao chép nội dung từ /public/tsp-user trong container ra thư mục ~/public bên ngoài
-docker cp $CONTAINER_ID:/public/tsp-user/. ~/public
+docker cp $CONTAINER_ID:/public/tsp-user ~/public
 
 # Xoá container tạm thời
 docker rm $CONTAINER_ID
