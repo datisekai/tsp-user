@@ -1,26 +1,46 @@
-import React, { useEffect } from "react";
-import { useCommonStore } from "../stores";
+import { useEffect } from "react";
+import MyTable from "../components/UI/MyTable";
+import { ModalName } from "../constants";
+import { notificationSchemas } from "../dataTable/notificationTable";
+import { useCommonStore, useModalStore } from "../stores";
+import { useNotificationStore } from "../stores/notificationStore";
 
 const Notification = () => {
-  const { setHeaderActions, resetActions, setHeaderTitle } = useCommonStore();
+  const { resetActions, setHeaderTitle } = useCommonStore();
+  const { getAll, notifications, total } = useNotificationStore();
+  const onToggle = useModalStore((state) => state.onToggle);
 
   useEffect(() => {
     setHeaderTitle("Thông báo");
-    setHeaderActions([
-      {
-        title: "Tạo",
-        icon: "pi pi-plus",
-        onClick: () => {},
-        type: "button",
-        disabled: false,
-      },
-    ]);
-
     return () => {
       resetActions();
     };
   }, []);
-  return <div>Notification</div>;
+  return (
+    <MyTable
+      schemas={notificationSchemas}
+      data={notifications.map((item) => ({
+        ...item,
+        classNames: item.classes
+          .map((c) => `${c.major.name} - ${c.name}`)
+          .join(";"),
+      }))}
+      totalRecords={total}
+      actions={[
+        {
+          icon: "pi-info-circle",
+          tooltip: "Chi tiết",
+          onClick: (data) => {
+            onToggle(ModalName.NOTIFICATION, {
+              content: data,
+              header: "Chi tiết thông báo",
+            });
+          },
+        },
+      ]}
+      onChange={(query) => getAll(query)}
+    />
+  );
 };
 
 export default Notification;

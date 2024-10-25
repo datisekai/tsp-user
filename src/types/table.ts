@@ -7,6 +7,7 @@ export interface TableSchema {
     value: string;
     severity: "danger" | "success" | "info" | "warning" | null;
   };
+  render?: (row: any, record: any) => React.ReactNode;
   minWidth?: string;
   children?: TableSchema[];
 }

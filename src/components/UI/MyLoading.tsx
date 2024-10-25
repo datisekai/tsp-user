@@ -3,7 +3,7 @@ import React from "react";
 
 interface IProps {
   isLoading: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const MyLoading: React.FC<IProps> = ({ isLoading, children }) => {

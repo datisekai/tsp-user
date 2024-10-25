@@ -10,6 +10,7 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import Notification from "../pages/Notification";
 import Profile from "../pages/Profile";
+import CreateLetter from "../pages/Letter/CreateLetter";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
           {
             path: pathNames.LETTER,
             element: <Letter />,
+          },
+          {
+            path: pathNames.LETTER_CREATE,
+            element: <CreateLetter />,
           },
           {
             path: pathNames.ATTENDANCE,

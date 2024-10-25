@@ -3,6 +3,7 @@ export const pathNames = {
   LOGIN: "/login",
   NOTIFICATION: "/notification",
   LETTER: "/letter",
+  LETTER_CREATE: "/letter/create",
   ATTENDANCE: "/attendance",
   GRADE: "/grade",
   EXAM: "/exam",

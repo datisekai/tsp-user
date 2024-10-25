@@ -21,6 +21,7 @@ export interface IFormItem {
   getOptions?: (data?: Array<any>) => IOption[];
   description?: string;
   preConditionProp?: string;
+  required?: boolean;
 }
 
 export interface IForm {

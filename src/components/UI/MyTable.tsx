@@ -1,24 +1,18 @@
+import dayjs from "dayjs";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
-import { TableSchema } from "../../types/table";
-import {
-  FC,
-  useMemo,
-  memo,
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
-import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
-import { useDebounceValue } from "usehooks-ts";
-import dayjs from "dayjs";
-import { Tag } from "primereact/tag";
 import { Menu } from "primereact/menu";
+import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
+import { Tag } from "primereact/tag";
+import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
+import { useDebounceValue } from "usehooks-ts";
+import { TableSchema } from "../../types/table";
+import { useDevice } from "../../hooks";
+import MyCard from "./MyCard";
 
 export interface IActionTable {
   title?: string;
@@ -52,16 +46,16 @@ const MyTable: FC<IMyTable> = ({
   schemas = [],
   keySearch = "",
   totalRecords = 0,
-  perPage = 5,
+  perPage = 10,
   onChange,
   actions = [],
   isLoading = false,
 }) => {
   const [first, setFirst] = useState(1);
   const [selectedRowData, setSelectedRowData] = useState<any>(null);
-  const [menuVisible, setMenuVisible] = useState(false);
   const menuRight = useRef<Menu>(null);
   const [debouncedValue, setValue] = useDebounceValue("", 500);
+  const { isMobile } = useDevice();
 
   const handlePageChange = (event: PaginatorPageChangeEvent) => {
     const page = Math.max(1, event.first + 1);
@@ -76,7 +70,6 @@ const MyTable: FC<IMyTable> = ({
 
   const handleMenuClick = (event: any, rowData: any) => {
     setSelectedRowData(rowData);
-    setMenuVisible(true);
     menuRight?.current?.toggle(event);
   };
 
@@ -85,6 +78,9 @@ const MyTable: FC<IMyTable> = ({
 
     const schema = schemas.find((item) => item.prop === key);
     const value = row[key] || "";
+    if (schema?.render && typeof schema.render == "function") {
+      return schema.render(value, row);
+    }
     switch (schema?.type) {
       case "text":
       case "number":
@@ -196,35 +192,78 @@ const MyTable: FC<IMyTable> = ({
   );
 
   return (
-    <div className="card">
-      <DataTable
-        loading={isLoading}
-        value={data}
-        header={keySearch ? renderHeader() : null}
-        tableStyle={{ minWidth: "10rem" }}
-      >
-        {schemas.map((schema) => (
-          <Column
-            body={bodyTemplate}
-            key={schema.prop}
-            field={schema.prop}
-            header={schema.label}
-            style={{ minWidth: schema.minWidth || "50px" }}
-          />
-        ))}
-        {actions && actions.length > 0 && (
-          <Column body={renderActions} field="actions" header="Thao tác" />
-        )}
-      </DataTable>
-      {totalRecords > perPage && (
-        <Paginator
-          first={first}
-          rows={perPage}
-          totalRecords={totalRecords}
-          onPageChange={handlePageChange}
-        />
+    <>
+      {!isMobile ? (
+        <MyCard>
+          <DataTable
+            loading={isLoading}
+            value={data}
+            header={keySearch ? renderHeader() : null}
+            tableStyle={{ minWidth: "10rem" }}
+          >
+            {schemas.map((schema) => (
+              <Column
+                body={bodyTemplate}
+                key={schema.prop}
+                field={schema.prop}
+                header={schema.label}
+                style={{ minWidth: schema.minWidth || "50px" }}
+              />
+            ))}
+            {actions && actions.length > 0 && (
+              <Column body={renderActions} field="actions" header="Thao tác" />
+            )}
+          </DataTable>
+          {totalRecords > perPage && (
+            <Paginator
+              first={first - 1}
+              rows={perPage}
+              totalRecords={totalRecords}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </MyCard>
+      ) : (
+        <div className="tw-space-y-2">
+          {data.map((item) => {
+            return (
+              <MyCard key={item.id}>
+                {schemas.map((s) => {
+                  return (
+                    <div key={s.prop}>
+                      {s.label}:{" "}
+                      <strong>{bodyTemplate(item, { field: s.prop })}</strong>
+                    </div>
+                  );
+                })}
+
+                <div className="tw-mt-2">
+                  {actions?.map((action, index) => (
+                    <Button
+                      size="small"
+                      tooltip={action.tooltip}
+                      tooltipOptions={{ position: "top" }}
+                      loading={action.loading}
+                      disabled={action.disabled}
+                      key={index}
+                      severity={action.severity}
+                      onClick={() => {
+                        if (action.onClick) {
+                          action.onClick(item, {});
+                        }
+                      }}
+                      label={action.title}
+                      iconPos={action.iconPos || "left"}
+                      icon={`pi ${action.icon}`}
+                    />
+                  ))}
+                </div>
+              </MyCard>
+            );
+          })}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

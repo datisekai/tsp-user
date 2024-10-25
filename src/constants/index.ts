@@ -1,3 +1,5 @@
+import { LetterType } from "../types/letter";
+
 export * from "./sidebar";
 export * from "./modal";
 export * from "./user";
@@ -11,3 +13,7 @@ export enum QuestionType {
   MULTIPLE_CHOICE = "multiple_choice",
   CODE = "code",
 }
+
+export const LetterTypeData: any = {
+  [LetterType.LEAVE_APPLICATION]: "Đơn xin nghỉ",
+};
