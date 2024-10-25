@@ -10,9 +10,9 @@ docker build -t $IMAGE_NAME .
 CONTAINER_ID=$(docker create $IMAGE_NAME)
 
 # Sao chép file từ container ra thư mục bên ngoài
-docker cp $CONTAINER_ID:/public/tsp-user ~/public/tsp-user
+docker cp $CONTAINER_ID:/public/tsp-user ~/public
 
 # Xoá container tạm thời
 docker rm $CONTAINER_ID
 
-echo "Build complete and files copied to ~/public/tsp-user"
+echo "Build complete and files copied to ~/public

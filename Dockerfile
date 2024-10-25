@@ -20,10 +20,10 @@ RUN npm run build
 FROM alpine:latest
 
 # Bước 8: Tạo thư mục đích để sao chép
-RUN mkdir -p /public/tsp-user
+RUN mkdir -p /public
 
 # Bước 9: Sao chép build từ bước builder
-COPY --from=builder /app/dist /public/tsp-user
+COPY --from=builder /app/dist /public
 
 # Bước 10: Thiết lập thư mục làm việc
-WORKDIR /public/tsp-user
+WORKDIR /public
