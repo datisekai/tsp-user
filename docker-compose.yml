@@ -11,3 +11,6 @@ services:
     restart: always
     environment:
       NODE_ENV: production
+    volumes:
+      - .:/app # Mount the entire project directory
+      - ./.env:/app/.env # Mount the .env file
