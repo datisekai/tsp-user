@@ -18,7 +18,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the built files from the previous stage
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist ~/public/tsp-user
 
 # Expose port 80 (default for Nginx)
 EXPOSE 80
