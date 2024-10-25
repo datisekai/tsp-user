@@ -19,7 +19,7 @@ export const useAuthStore = create<IState>((set) => ({
   token: getObjectLocalData(localKey.TOKEN) || "",
   login: async (code: string, password: string) => {
     const deviceId = await getDeviceId();
-    const result = await AuthService.login(code, password, deviceId);
+    const result = await AuthService.login(code, password, deviceId as string);
     if (result) {
       const token = result.accessToken;
       setObjectLocalData(localKey.TOKEN, token);
