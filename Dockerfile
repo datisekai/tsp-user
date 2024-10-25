@@ -20,8 +20,3 @@ FROM nginx:alpine
 # Copy the built files from the previous stage
 COPY --from=build /app/dist ~/public/tsp-user
 
-# Expose port 80 (default for Nginx)
-EXPOSE 80
-
-# CMD to run Nginx in the foreground
-CMD ["nginx", "-g", "daemon off;"]
