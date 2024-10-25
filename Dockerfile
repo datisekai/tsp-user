@@ -1,22 +1,29 @@
-# Stage 1: Build the React application
-FROM node:20-alpine AS build
+# Bước 1: Sử dụng Node.js làm base image
+FROM node:20 AS builder
 
-# Set working directory
+# Bước 2: Đặt thư mục làm việc
 WORKDIR /app
 
-# Copy the package.json and install dependencies
-COPY package.json package-lock.json ./
+# Bước 3: Sao chép package.json và package-lock.json (nếu có)
+COPY package*.json ./
+
+# Bước 4: Cài đặt các dependencies
 RUN npm install
 
-# Copy the source code to the working directory
+# Bước 5: Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
-# Build the Vite React application
+# Bước 6: Chạy lệnh build
 RUN npm run build
 
-# Stage 2: Serve the built files using a lightweight web server
-FROM nginx:alpine
+# Bước 7: Tạo image cho việc sao chép kết quả
+FROM alpine:latest
 
-# Copy the built files from the previous stage
-COPY --from=build /app/dist ~/public/tsp-user
+# Bước 8: Tạo thư mục đích để sao chép
+RUN mkdir -p /public/tsp-user
 
+# Bước 9: Sao chép build từ bước builder
+COPY --from=builder /app/dist /public/tsp-user
+
+# Bước 10: Thiết lập thư mục làm việc
+WORKDIR /public/tsp-user
