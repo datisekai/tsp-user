@@ -247,7 +247,7 @@ const MyTable: FC<IMyTable> = ({
                   );
                 })}
 
-                <div className="tw-mt-2">
+                <div className="tw-mt-2 tw-space-x-2">
                   {actions?.map((action, index) => (
                     <Button
                       size="small"
