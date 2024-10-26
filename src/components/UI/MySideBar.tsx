@@ -1,10 +1,12 @@
 import { Avatar } from "primereact/avatar";
 import { Ripple } from "primereact/ripple";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { sidebarBottom, sidebarData } from "../../constants";
+import { pathNames, sidebarBottom, sidebarData } from "../../constants";
 import { getRandomAvatar } from "../../utils";
-import { useUserStore } from "../../stores";
+import { useNotificationStore, useUserStore } from "../../stores";
+import { useExamStore } from "../../stores/examStore";
+import { Badge } from "primereact/badge";
 
 interface IMySideBar {
   isSidebarVisible: boolean;
@@ -25,6 +27,7 @@ const MySideBar: React.FC<IMySideBar> = ({
   const [expandedMenus, setExpandedMenus] = useState<ExpandedMenus>({});
   const { pathname } = useLocation();
   const { user } = useUserStore();
+  const { exams } = useExamStore()
   console.log("🚀 ~ user:", user);
   // console.log(user);
 
@@ -44,11 +47,19 @@ const MySideBar: React.FC<IMySideBar> = ({
     }
   };
 
+  const sidebarRender = useMemo(() => {
+    return sidebarData.map((item, index) => {
+      if (item.path === pathNames.EXAM) {
+        const ready = exams.some(e => e.status === "active")
+        return { ...item, notify: ready }
+      }
+      return item;
+    })
+  }, [sidebarData, exams])
   return (
     <div
-      className={`tw-fixed tw-top-0 tw-left-0 tw-h-full tw-bg-gray-100 tw-shadow-md tw-z-20 tw-transition-transform tw-duration-300 ${
-        isSidebarVisible ? "tw-translate-x-0" : "-tw-translate-x-full"
-      } ${isMobile ? "tw-w-full" : "tw-w-80"}`}
+      className={`tw-fixed tw-top-0 tw-left-0 tw-h-full tw-bg-gray-100 tw-shadow-md tw-z-20 tw-transition-transform tw-duration-300 ${isSidebarVisible ? "tw-translate-x-0" : "-tw-translate-x-full"
+        } ${isMobile ? "tw-w-full" : "tw-w-80"}`}
     >
       <div className="tw-flex tw-flex-col tw-h-full">
         <div className="tw-flex tw-items-center tw-justify-between tw-px-4 tw-py-3">
@@ -70,7 +81,7 @@ const MySideBar: React.FC<IMySideBar> = ({
         </div>
         <div className="tw-overflow-y-auto tw-flex-1">
           <ul className="tw-list-none tw-p-3 tw-space-y-1 tw-m-0">
-            {sidebarData.map((item, index) => (
+            {sidebarRender.map((item, index) => (
               <li key={index}>
                 <div
                   onClick={() =>
@@ -78,27 +89,27 @@ const MySideBar: React.FC<IMySideBar> = ({
                       ? handleExpandClick(index)
                       : handleMenuItemClick(item?.path)
                   }
-                  className={`tw-p-ripple tw-p-3 tw-flex tw-items-center  tw-text-600 tw-cursor-pointer ${
-                    item.path && pathname.includes(item.path)
-                      ? "bg-primary"
-                      : "hover:bg-primary"
-                  } tw-transition-colors tw-duration-200"`}
+                  className={`tw-p-ripple tw-p-3 tw-flex tw-items-center  tw-text-600 tw-cursor-pointer ${item.path && pathname.includes(item.path)
+                    ? "bg-primary"
+                    : "hover:bg-primary"
+                    } tw-transition-colors tw-duration-200"`}
                 >
                   <i className={`${item.icon} tw-mr-2`}></i>
                   <span className="tw-font-medium">{item.title}</span>
                   {item.children && item.children.length > 0 && (
                     <i
-                      className={`pi pi-chevron-down tw-transition-transform tw-duration-300 ${
-                        expandedMenus[index] ? "tw-rotate-180" : ""
-                      }`}
+                      className={`pi pi-chevron-down tw-transition-transform tw-duration-300 ${expandedMenus[index] ? "tw-rotate-180" : ""
+                        }`}
                     ></i>
                   )}
                   <Ripple />
+                  {item.notify && <Badge severity="danger" className="tw-ml-2"></Badge>}
+
                 </div>
+
                 <ul
-                  className={`tw-list-none tw-p-0 tw-m-0 tw-overflow-hidden tw-transition-max-height tw-duration-300 ${
-                    expandedMenus[index] ? "tw-max-h-40" : "tw-max-h-0"
-                  }`}
+                  className={`tw-list-none tw-p-0 tw-m-0 tw-overflow-hidden tw-transition-max-height tw-duration-300 ${expandedMenus[index] ? "tw-max-h-40" : "tw-max-h-0"
+                    }`}
                 >
                   {item?.children?.map((child, childIndex) => (
                     <li className="ml-2" key={childIndex}>
@@ -127,27 +138,24 @@ const MySideBar: React.FC<IMySideBar> = ({
                       ? handleExpandClick(index)
                       : handleMenuItemClick(item?.path)
                   }
-                  className={`tw-p-ripple tw-p-3 tw-flex tw-items-center  tw-text-600 tw-cursor-pointer ${
-                    item.path && pathname.includes(item.path)
-                      ? "bg-primary"
-                      : "hover:bg-primary"
-                  } tw-transition-colors tw-duration-200"`}
+                  className={`tw-p-ripple tw-p-3 tw-flex tw-items-center  tw-text-600 tw-cursor-pointer ${item.path && pathname.includes(item.path)
+                    ? "bg-primary"
+                    : "hover:bg-primary"
+                    } tw-transition-colors tw-duration-200"`}
                 >
                   <i className={`${item.icon} tw-mr-2`}></i>
                   <span className="tw-font-medium">{item.title}</span>
                   {item.children && item.children.length > 0 && (
                     <i
-                      className={`pi pi-chevron-down tw-transition-transform tw-duration-300 ${
-                        expandedMenus[index] ? "tw-rotate-180" : ""
-                      }`}
+                      className={`pi pi-chevron-down tw-transition-transform tw-duration-300 ${expandedMenus[index] ? "tw-rotate-180" : ""
+                        }`}
                     ></i>
                   )}
                   <Ripple />
                 </div>
                 <ul
-                  className={`tw-list-none tw-p-0 tw-m-0 tw-overflow-hidden tw-transition-max-height tw-duration-300 ${
-                    expandedMenus[index] ? "tw-max-h-40" : "tw-max-h-0"
-                  }`}
+                  className={`tw-list-none tw-p-0 tw-m-0 tw-overflow-hidden tw-transition-max-height tw-duration-300 ${expandedMenus[index] ? "tw-max-h-40" : "tw-max-h-0"
+                    }`}
                 >
                   {item?.children?.map((child, childIndex) => (
                     <li className="ml-2" key={childIndex}>

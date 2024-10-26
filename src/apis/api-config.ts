@@ -17,6 +17,18 @@ export const apiConfig = {
       endpoint: "/api.notification/public/me",
     },
   },
+  exam: {
+    getAll: {
+      method: "GET",
+      endpoint: "/api.exam/public/me",
+    },
+  },
+  attendance: {
+    getAll: {
+      method: "GET",
+      endpoint: "/api.attendance/public/me",
+    },
+  },
   class: {
     getAll: {
       method: "GET",

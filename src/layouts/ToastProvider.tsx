@@ -35,7 +35,7 @@ const ToastProvider: React.FC<IToastProvider> = ({ children }) => {
 
     return (
         <ToastContext.Provider value={{ showToast }}>
-            <Toast ref={toastRef} />
+            <Toast baseZIndex={10000} ref={toastRef} />
             <>
                 {children}
             </>

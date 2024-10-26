@@ -5,9 +5,10 @@ import MyFooterAction from "../components/UI/MyFooterAction";
 import MyHeader from "../components/UI/MyHeader";
 import MySideBar from "../components/UI/MySideBar";
 import { pathNames } from "../constants";
-import { useAuthStore } from "../stores";
+import { useAuthStore, useNotificationStore } from "../stores";
 import { useSocketStore } from "../stores/socketStore";
 import { useUserStore } from "../stores/userStore";
+import { useExamStore } from "../stores/examStore";
 
 const AuthLayout = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(
@@ -18,6 +19,7 @@ const AuthLayout = () => {
   const { token } = useAuthStore();
   const navigate = useNavigate();
   const { connectSocket, disconnectSocket } = useSocketStore();
+  const getExam = useExamStore(state => state.getAll)
 
   useEffect(() => {
     if (!token) {
@@ -35,11 +37,18 @@ const AuthLayout = () => {
 
     connectSocket();
 
+    initData()
+
     return () => {
       window.removeEventListener("resize", handleResize);
       disconnectSocket();
     };
   }, []);
+
+  const initData = () => {
+    Promise.allSettled([getExam()])
+
+  }
 
   const handleCloseSidebar = () => {
     setIsSidebarVisible(false);
@@ -69,9 +78,8 @@ const AuthLayout = () => {
           toggleSidebar={toggleSidebar}
         />
         <main
-          className={`tw-flex-1 tw-p-4 tw-pt-24 tw-pb-24 tw-transition-all tw-duration-300 ${
-            isSidebarVisible ? "md:tw-ml-80" : "md:tw-ml-0"
-          }`}
+          className={`tw-flex-1 tw-p-4 tw-pt-24 tw-pb-24 tw-transition-all tw-duration-300 ${isSidebarVisible ? "md:tw-ml-80" : "md:tw-ml-0"
+            }`}
         >
           <Outlet />
         </main>

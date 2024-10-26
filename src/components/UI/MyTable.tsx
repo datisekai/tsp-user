@@ -25,6 +25,7 @@ export interface IActionTable {
   loading?: boolean;
   action?: "back";
   tooltip?: string;
+  isHidden?: (record: any) => boolean
 }
 export interface QueryParams {
   page?: number;
@@ -88,7 +89,7 @@ const MyTable: FC<IMyTable> = ({
       case "date":
         return <span>{dayjs(value).format("DD/MM/YYYY")}</span>;
       case "datetime":
-        return <span>{dayjs(value).format("DD/MM/YYYY HH:mm")}</span>;
+        return <span>{value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "Chưa có"}</span>;
       case "badge":
         if (schema?.getBadge && typeof schema.getBadge === "function") {
           const { severity, value: renderValue } = schema.getBadge(value);
@@ -122,10 +123,18 @@ const MyTable: FC<IMyTable> = ({
 
   const renderActions = useCallback(
     (rowData: any, options: any) => {
+
+      const actionDisplay = actions.filter((action) => {
+        if (action && action.isHidden && typeof action.isHidden == 'function') {
+          return !action.isHidden(rowData)
+        }
+        return true;
+      });
+
       const items = [
         {
           label: "Hành động",
-          items: actions.map((action) => ({
+          items: actionDisplay.map((action) => ({
             label: action.tooltip,
             icon: `pi ${action.icon}`,
             command: () => {
@@ -137,12 +146,13 @@ const MyTable: FC<IMyTable> = ({
         },
       ];
 
+
       return (
         <div className="tw-w-full tw-flex tw-gap-2 tw-flex-wrap tw-items-center">
-          {actions && actions.length > 0 && (
+          {actionDisplay && actionDisplay.length > 0 && (
             <div
               className={
-                actions.length < 4 ? "tw-flex md:tw-hidden" : "tw-flex"
+                actionDisplay.length < 4 ? "tw-flex md:tw-hidden" : "tw-flex"
               }
             >
               <Menu
@@ -163,11 +173,11 @@ const MyTable: FC<IMyTable> = ({
               />
             </div>
           )}
-          {actions?.map((action, index) => (
+          {actionDisplay?.map((action, index) => (
             <Button
               size="small"
               className={
-                actions.length < 4 ? "md:tw-flex tw-hidden" : "tw-hidden"
+                actionDisplay.length < 4 ? "md:tw-flex tw-hidden" : "tw-hidden"
               }
               tooltip={action.tooltip}
               tooltipOptions={{ position: "top" }}

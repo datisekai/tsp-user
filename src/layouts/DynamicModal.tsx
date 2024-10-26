@@ -5,6 +5,7 @@ import { ModalName } from "../constants";
 import { useModalStore } from "../stores/modalStore";
 import NotificationModal from "../components/Modal/NotificationModal";
 import LetterModal from "../components/Modal/LetterModal";
+import ScanQrModal from "../components/Modal/ScanQrModal";
 
 const DynamicModal = () => {
   const { modalName, onDismiss, visible, footer, header, style } =
@@ -29,6 +30,7 @@ const DynamicModal = () => {
       {modalName === ModalName.TEST && <TestModal />}
       {modalName === ModalName.NOTIFICATION && <NotificationModal />}
       {modalName === ModalName.LETTER && <LetterModal />}
+      {modalName === ModalName.SCAN_QR && <ScanQrModal />}
     </Dialog>
   );
 };

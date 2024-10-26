@@ -1,26 +1,27 @@
-import React, { useEffect } from "react";
-import { useCommonStore } from "../stores";
+import { useEffect } from "react";
+import MyTable from "../components/UI/MyTable";
+import { attendanceSchemas } from "../dataTable/attendanceTable";
+import { useAttendanceStore, useCommonStore, useModalStore } from "../stores";
 
 const Attendance = () => {
-  const { setHeaderActions, resetActions, setHeaderTitle } = useCommonStore();
+  const { resetActions, setHeaderTitle } = useCommonStore();
+  const { getAll, attendances, total } = useAttendanceStore();
+  const onToggle = useModalStore((state) => state.onToggle);
 
   useEffect(() => {
-    setHeaderTitle("Điểm danh");
-    setHeaderActions([
-      {
-        title: "Tạo",
-        icon: "pi pi-plus",
-        onClick: () => {},
-        type: "button",
-        disabled: false,
-      },
-    ]);
-
+    setHeaderTitle("Lịch sử điểm danh");
     return () => {
       resetActions();
     };
   }, []);
-  return <div>Attendance</div>;
+  return (
+    <MyTable
+      schemas={attendanceSchemas}
+      data={attendances}
+      totalRecords={total}
+      onChange={(query) => getAll(query)}
+    />
+  );
 };
 
 export default Attendance;

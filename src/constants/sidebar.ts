@@ -47,4 +47,5 @@ interface IMenuItem {
   path?: string;
   hidden?: boolean;
   children?: IMenuItem[];
+  notify?: boolean;
 }
