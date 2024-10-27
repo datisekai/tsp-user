@@ -46,12 +46,18 @@ const LetterModal = () => {
           </div>
           <div>
             Trạng thái:{" "}
-            <Tag severity={status.severity as any} value={status.value} />
+            <Tag severity={status.severity as any} value={status.value}/>
           </div>
           <div>
-            Thời gian tạo:{" "}
+            Ngày tạo:{" "}
             <strong>
               {dayjs(content.createdAt).format("DD/MM/YYYY HH:mm")}
+            </strong>
+          </div>
+          <div>
+            Thời gian:{" "}
+            <strong>
+              {dayjs(content.time).format("DD/MM/YYYY")}
             </strong>
           </div>
           <div>
@@ -65,9 +71,9 @@ const LetterModal = () => {
           </div>
         </div>
         {content.image && (
-          <div className="tw-flex-1">
-            <img src={content.image} alt="image" className="tw-w-full" />
-          </div>
+            <div className="tw-flex-1">
+              <img src={content.image} alt="image" className="tw-w-full"/>
+            </div>
         )}
       </div>
     </div>

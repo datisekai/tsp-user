@@ -5,4 +5,8 @@ export const UserService = {
     const { getMe } = apiConfig;
     return processMiddlewareSendRequest(getMe);
   },
-};
+  updateProfile:async(body:any) => {
+    const {updateProfile} = apiConfig
+    return processMiddlewareSendRequest({...updateProfile, body})
+  }
+}

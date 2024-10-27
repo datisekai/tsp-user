@@ -1,16 +1,16 @@
-import { useEffect } from "react";
-import MyTable from "../components/UI/MyTable";
-import { ModalName } from "../constants";
-import { examSchemas } from "../dataTable/examTable";
-import { useCommonStore, useModalStore } from "../stores";
-import { useExamStore } from "../stores/examStore";
-import { IHistoryExam } from "../types/exam";
+import {useEffect} from "react";
+import MyTable from "../../components/UI/MyTable.tsx";
+import {pathNames} from "../../constants";
+import {examSchemas} from "../../dataTable/examTable.tsx";
+import {useCommonStore} from "../../stores";
+import {useExamStore} from "../../stores/examStore.ts";
+import {useNavigate} from "react-router-dom";
 
 
-const Exam = () => {
+const Index = () => {
   const { resetActions, setHeaderTitle } = useCommonStore();
   const { getAll, exams, total } = useExamStore();
-  const onToggle = useModalStore((state) => state.onToggle);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setHeaderTitle("Bài kiểm tra");
@@ -30,20 +30,15 @@ const Exam = () => {
           severity: 'info',
           isHidden: (record) => record.status != "active",
           onClick: (data) => {
-            // onToggle(ModalName., {
-            //   content: data,
-            //   header: "Chi tiết thông báo",
-            // });
+            navigate(pathNames.JOIN_EXAM.replace(":id", data.id));
           },
         },
         {
           icon: "pi-info-circle",
           tooltip: "Chi tiết",
+          isHidden: (record) => record.status == "active",
           onClick: (data) => {
-            // onToggle(ModalName., {
-            //   content: data,
-            //   header: "Chi tiết thông báo",
-            // });
+
           },
         },
       ]}
@@ -52,4 +47,4 @@ const Exam = () => {
   );
 };
 
-export default Exam;
+export default Index;

@@ -9,4 +9,5 @@ export const pathNames = {
   EXAM: "/exam",
   LOGOUT: "/logout",
   PROFILE: "/profile",
+  JOIN_EXAM: "/exam/:id",
 };

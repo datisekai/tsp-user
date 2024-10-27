@@ -1,15 +1,15 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Avatar } from "primereact/avatar";
-import { Button } from "primereact/button";
-import { FloatLabel } from "primereact/floatlabel";
-import { InputText } from "primereact/inputtext";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {Avatar} from "primereact/avatar";
+import {Button} from "primereact/button";
+import {FloatLabel} from "primereact/floatlabel";
+import {InputText} from "primereact/inputtext";
+import {useEffect, useState} from "react";
+import {useForm} from "react-hook-form";
 import * as yup from "yup";
-import { useToast } from "../hooks/useToast";
-import { useAuthStore, useCommonStore } from "../stores";
-import { useNavigate } from "react-router-dom";
-import { pathNames } from "../constants";
+import {useToast} from "../hooks/useToast";
+import {useAuthStore, useCommonStore} from "../stores";
+import {useNavigate} from "react-router-dom";
+import {pathNames} from "../constants";
 
 const Login = () => {
   const [code, setCode] = useState<string>("");
@@ -65,7 +65,7 @@ const Login = () => {
   });
 
   return (
-    <div className="tw-min-h-screen tw-bg-[url('/images/slider2_1240x450-min.jpg')] tw-bg-cover tw-bg-center">
+    <div className=" tw-min-h-screen tw-bg-[url('/images/slider2_1240x450-min.jpg')] tw-bg-cover tw-bg-center">
       <div className="tw-absolute tw-left-[2.5%] md:tw-left-[15%] tw-top-[6%] tw-w-[95%] md:tw-w-[70%] tw-h-[88vh] tw-flex tw-border tw-shadow-md tw-rounded-lg tw-bg-white">
         <div className="tw-hidden tw-w-1/2 tw-bg-cover tw-bg-[url('/images/background-login.png')] md:tw-flex tw-flex-col tw-items-center tw-justify-center tw-rounded-lg tw-bg-center">
           <p className="tw-text-3xl tw-font-bold tw-text-white">
@@ -74,11 +74,12 @@ const Login = () => {
           <Avatar
             image="/images/sgu-logo.jpeg"
             shape="circle"
-            className="tw-w-40 tw-h-40 tw-my-4"
+            className="tw-w-40 tw-h-40 tw-my-4 tw-animate-jump-in tw-animate-once"
           />
           <p className="tw-text-2xl tw-font-bold tw-text-white">
             Hỗ trợ học tập cho sinh viên
           </p>
+
         </div>
 
         <div className="tw-w-full md:tw-w-1/2 tw-bg-[url('/images/background-login.png')] tw-bg-cover tw-bg-center md:tw-bg-[url('')] md:tw-bg-white tw-flex tw-items-center tw-justify-center tw-rounded-lg">
@@ -87,7 +88,7 @@ const Login = () => {
               <Avatar
                 image="/images/logo.png"
                 shape="circle"
-                className="tw-w-40 tw-h-40"
+                className="tw-w-40 tw-h-40 tw-animate-jump-in tw-animate-once"
               />
               <h2 className="tw-text-3xl tw-text-white md:tw-text-title tw-font-semibold tw-text-center tw-mb-2">
                 Đăng nhập

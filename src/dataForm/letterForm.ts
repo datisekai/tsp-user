@@ -28,6 +28,12 @@ export const LetterForm: IForm[] = [
         },
       },
       {
+        prop: "time",
+        type: "date",
+        label: "Thời gian",
+        col: 6,
+      },
+      {
         prop: "reason",
         type: "textarea",
         label: "Lý do",

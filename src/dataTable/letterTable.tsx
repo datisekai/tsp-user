@@ -5,7 +5,7 @@ import { TableSchema } from "../types/table";
 export const letterSchemas: TableSchema[] = [
   {
     label: "#",
-    prop: "id",
+    prop: "index",
     type: "number",
   },
   {
@@ -62,8 +62,8 @@ export const letterSchemas: TableSchema[] = [
     },
   },
   {
-    label: "Thời gian tạo",
-    prop: "createdAt",
-    type: "datetime",
+    label: "Thời gian",
+    prop: "time",
+    type: "date",
   },
 ];

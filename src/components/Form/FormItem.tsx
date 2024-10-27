@@ -1,15 +1,15 @@
-import { Calendar } from "primereact/calendar";
-import { Dropdown } from "primereact/dropdown";
-import { InputNumber } from "primereact/inputnumber";
-import { InputSwitch } from "primereact/inputswitch";
-import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
-import { MultiSelect } from "primereact/multiselect";
-import React, { useEffect, useMemo, useState } from "react";
-import { Controller } from "react-hook-form";
-import { useWindowSize } from "usehooks-ts";
-import { sendServerRequest } from "../../apis";
-import { IFormItem, IOption } from "../../types/form-item";
+import {Calendar} from "primereact/calendar";
+import {Dropdown} from "primereact/dropdown";
+import {InputNumber} from "primereact/inputnumber";
+import {InputSwitch} from "primereact/inputswitch";
+import {InputText} from "primereact/inputtext";
+import {InputTextarea} from "primereact/inputtextarea";
+import {MultiSelect} from "primereact/multiselect";
+import React, {useEffect, useMemo, useState} from "react";
+import {Controller} from "react-hook-form";
+import {useWindowSize} from "usehooks-ts";
+import {sendServerRequest} from "../../apis";
+import {IFormItem, IOption} from "../../types/form-item";
 import MyEditor from "../UI/MyEditor";
 import MyUploadSingleImage from "../UI/MyUploadSingleImage";
 
@@ -33,6 +33,7 @@ const FormItem: React.FC<IForm> = ({
   watch,
   preConditionProp,
   required = true,
+    disabled
 }) => {
   const windowSize = useWindowSize();
 
@@ -96,6 +97,7 @@ const FormItem: React.FC<IForm> = ({
               placeholder={label}
               aria-describedby={`${prop}-help`}
               invalid={!!error}
+              disabled={disabled || false}
             />
           )
         );
@@ -117,6 +119,7 @@ const FormItem: React.FC<IForm> = ({
             className="tw-w-full"
             useGrouping={false}
             onBlur={onBlur}
+            disabled={disabled || false}
             placeholder={label}
             invalid={!!error}
           />
@@ -130,6 +133,7 @@ const FormItem: React.FC<IForm> = ({
               onChange({ target: { value: e.value, name: prop } })
             }
             onBlur={onBlur}
+            disabled={disabled || false}
           />
         ));
       case "date":
@@ -138,8 +142,10 @@ const FormItem: React.FC<IForm> = ({
             className="tw-w-full"
             placeholder={label}
             invalid={!!error}
+            disabled={disabled || false}
             value={value}
             onBlur={onBlur}
+            dateFormat={'dd/mm/yy'}
             onChange={(e) =>
               onChange({ target: { value: e.value, name: prop } })
             }
@@ -152,6 +158,7 @@ const FormItem: React.FC<IForm> = ({
             placeholder={label}
             invalid={!!error}
             value={value}
+            disabled={disabled || false}
             onBlur={onBlur}
             onChange={(e) =>
               onChange({ target: { value: e.value, name: prop } })
@@ -171,6 +178,7 @@ const FormItem: React.FC<IForm> = ({
             }
             options={options}
             optionLabel="title"
+            disabled={disabled || false}
             placeholder={`Chọn ${label.toLowerCase()}`}
             className="tw-w-full"
           />
@@ -182,6 +190,7 @@ const FormItem: React.FC<IForm> = ({
             onBlur={onBlur}
             value={value}
             name={prop}
+            disabled={disabled || false}
             onChange={(e) => {
               console.log("🚀 ~ getInputComponent ~ e:", e);
 
@@ -236,6 +245,7 @@ const FormItem: React.FC<IForm> = ({
         return renderController(({ field: { onChange, onBlur, value } }) => (
           <InputTextarea
             invalid={!!error}
+            disabled={disabled || false}
             onBlur={onBlur}
             value={value}
             onChange={onChange}
@@ -264,6 +274,7 @@ const FormItem: React.FC<IForm> = ({
               value={value}
               onBlur={onBlur}
               ref={ref}
+              disabled={disabled || false}
               onChange={onChange}
               className="tw-w-full"
               placeholder={label}

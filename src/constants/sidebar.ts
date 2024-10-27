@@ -16,11 +16,11 @@ export const sidebarData: IMenuItem[] = [
     icon: "pi pi-users",
     path: pathNames.ATTENDANCE,
   },
-  {
-    title: "Bảng điểm",
-    icon: "pi pi-face-smile",
-    path: pathNames.GRADE,
-  },
+  // {
+  //   title: "Bảng điểm",
+  //   icon: "pi pi-face-smile",
+  //   path: pathNames.GRADE,
+  // },
   {
     title: "Kiểm tra",
     icon: "pi pi-bolt",

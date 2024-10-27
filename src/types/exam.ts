@@ -35,3 +35,38 @@ interface Submission {
 interface User {
   id: number;
 }
+
+export interface IJoinExam {
+  createdAt: string
+  updatedAt: string
+  id: number
+  title: string
+  description?: string
+  startTime: string
+  endTime: string
+  questions: IQuestion[]
+  class: Class
+}
+
+export interface IQuestion {
+  createdAt: string
+  updatedAt: string
+  id: number
+  title: string
+  content: string
+  type: string
+  isPublic: boolean
+  choices: Choice[]
+  acceptedLanguages: number[]
+  initCode: any;
+}
+
+export interface Choice {
+  text: string
+}
+
+
+export enum QuestionType {
+  MULTIPLE_CHOICE = "multiple_choice",
+  CODE = "code",
+}

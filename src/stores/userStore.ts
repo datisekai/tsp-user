@@ -5,9 +5,10 @@ import { IUser } from "../types/user";
 interface IState {
   user: IUser;
   getMe: () => Promise<void>;
+  updateProfile: (body:any) => Promise<boolean>
 }
 
-export const useUserStore = create<IState>((set) => ({
+export const useUserStore = create<IState>((set, get) => ({
   user: {} as IUser,
   users: [],
   isLoadingUsers: false,
@@ -22,4 +23,13 @@ export const useUserStore = create<IState>((set) => ({
       console.log(error);
     }
   },
+  updateProfile: async (body) => {
+    try {
+      const resp = await UserService.updateProfile(body);
+      get().getMe();
+      return !!resp;
+    }catch (error) {
+      return false;
+    }
+  }
 }));

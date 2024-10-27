@@ -1,17 +1,17 @@
 import dayjs from "dayjs";
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
-import { Menu } from "primereact/menu";
-import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
-import { Tag } from "primereact/tag";
-import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
-import { useDebounceValue } from "usehooks-ts";
-import { TableSchema } from "../../types/table";
-import { useDevice } from "../../hooks";
+import {Button} from "primereact/button";
+import {Column} from "primereact/column";
+import {DataTable} from "primereact/datatable";
+import {IconField} from "primereact/iconfield";
+import {InputIcon} from "primereact/inputicon";
+import {InputText} from "primereact/inputtext";
+import {Menu} from "primereact/menu";
+import {Paginator, PaginatorPageChangeEvent} from "primereact/paginator";
+import {Tag} from "primereact/tag";
+import {FC, memo, useCallback, useEffect, useRef, useState} from "react";
+import {useDebounceValue} from "usehooks-ts";
+import {TableSchema} from "../../types/table";
+import {useDevice} from "../../hooks";
 import MyCard from "./MyCard";
 
 export interface IActionTable {
@@ -59,7 +59,7 @@ const MyTable: FC<IMyTable> = ({
   const { isMobile } = useDevice();
 
   const handlePageChange = (event: PaginatorPageChangeEvent) => {
-    const page = Math.max(1, event.first + 1);
+    const page = Math.max(1, event.page + 1);
     setFirst(page);
   };
 
@@ -204,7 +204,7 @@ const MyTable: FC<IMyTable> = ({
   return (
     <>
       {!isMobile ? (
-        <MyCard>
+        <MyCard >
           <DataTable
             loading={isLoading}
             value={data}
@@ -226,7 +226,7 @@ const MyTable: FC<IMyTable> = ({
           </DataTable>
           {totalRecords > perPage && (
             <Paginator
-              first={first - 1}
+              first={first * perPage - 1}
               rows={perPage}
               totalRecords={totalRecords}
               onPageChange={handlePageChange}

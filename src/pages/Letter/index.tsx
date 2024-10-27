@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ModalName, pathNames } from "../../constants";
 import { letterSchemas } from "../../dataTable/letterTable";
 import { useConfirm, useToast } from "../../hooks";
+import {LetterStatus} from "../../types/letter.ts";
 
 const Letter = () => {
   const { setHeaderActions, resetActions, setHeaderTitle } = useCommonStore();
@@ -82,6 +83,7 @@ const Letter = () => {
           tooltip: "Xóa",
           icon: "pi-trash",
           severity: "danger",
+          isHidden:(record:any) => record.status !== LetterStatus.PENDING
         },
       ]}
     />

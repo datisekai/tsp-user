@@ -27,3 +27,6 @@ export const getDeviceId = async () => {
       .catch(() => reject(""));
   });
 };
+export function generateCharacter(index: number) {
+  return String.fromCharCode(65 + index);
+}

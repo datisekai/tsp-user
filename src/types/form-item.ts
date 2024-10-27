@@ -22,6 +22,7 @@ export interface IFormItem {
   description?: string;
   preConditionProp?: string;
   required?: boolean;
+  disabled?: boolean
 }
 
 export interface IForm {

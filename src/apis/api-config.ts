@@ -11,6 +11,10 @@ export const apiConfig = {
     method: "GET",
     endpoint: "/api.auth/profile",
   },
+  updateProfile: {
+    method: "PUT",
+    endpoint: "/api.user/me",
+  },
   notification: {
     getAll: {
       method: "GET",
@@ -22,6 +26,18 @@ export const apiConfig = {
       method: "GET",
       endpoint: "/api.exam/public/me",
     },
+    join:{
+      method:'GET',
+      endpoint:'/api.exam/public/:id'
+    },
+    submitMultiChoice:{
+      method:'POST',
+      endpoint:'/api.submission/submit-multiple-choice'
+    },
+    submitCode:{
+      method:'POST',
+      endpoint:'/api.submission/submit-code'
+    }
   },
   attendance: {
     getAll: {

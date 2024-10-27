@@ -11,6 +11,7 @@ import Logout from "../pages/Logout";
 import Notification from "../pages/Notification";
 import Profile from "../pages/Profile";
 import CreateLetter from "../pages/Letter/CreateLetter";
+import JoinExam from "../pages/Exam/JoinExam.tsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
           {
             path: pathNames.EXAM,
             element: <Exam />,
+          },
+          {
+            path: pathNames.JOIN_EXAM,
+            element: <JoinExam />,
           },
           {
             path: pathNames.PROFILE,

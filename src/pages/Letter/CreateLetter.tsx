@@ -18,6 +18,7 @@ const schema = yup
     classId: yup.string().required("Lớp học là bắt buộc"),
     reason: yup.string().required("Lý do là bắt buộc"),
     image: yup.string(),
+    time: yup.string(),
   })
   .required();
 
@@ -34,6 +35,7 @@ const CreateLetter = () => {
       image: "",
       reason: "",
       classId: "",
+      time:""
     },
   });
 

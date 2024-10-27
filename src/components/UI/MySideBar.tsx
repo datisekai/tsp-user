@@ -62,7 +62,7 @@ const MySideBar: React.FC<IMySideBar> = ({
         } ${isMobile ? "tw-w-full" : "tw-w-80"}`}
     >
       <div className="tw-flex tw-flex-col tw-h-full">
-        <div className="tw-flex tw-items-center tw-justify-between tw-px-4 tw-py-3">
+        <div className="tw-animate-fade-right tw-animate-once tw-flex tw-items-center tw-justify-between tw-px-4 tw-py-3">
           <span
             onClick={() => handleMenuItemClick("/")}
             className="tw-inline-flex tw-items-center tw-gap-2 hover:tw-cursor-pointer"
@@ -176,7 +176,7 @@ const MySideBar: React.FC<IMySideBar> = ({
           <a className="tw-m-3 tw-flex tw-items-center tw-cursor-pointer tw-gap-2 tw-border-round tw-text-700 hover:tw-surface-100 tw-transition-duration-150 tw-transition-colors tw-p-ripple">
             <span className="tw-flex tw-items-center tw-gap-2">
               <Avatar
-                image={getRandomAvatar(user.avatar)}
+                image={user.avatar || getRandomAvatar(user.avatar)}
                 size="xlarge"
                 className="tw-object-cover tw-object-top"
                 shape="circle"
