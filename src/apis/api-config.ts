@@ -37,6 +37,10 @@ export const apiConfig = {
     submitCode:{
       method:'POST',
       endpoint:'/api.submission/submit-code'
+    },
+    submitExam:{
+      method:'POST',
+      endpoint:'/api.exam/submit/:id'
     }
   },
   attendance: {

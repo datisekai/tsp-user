@@ -26,5 +26,12 @@ export const examService = {
       ...submitMultiChoice,
       body,
     });
+  },
+  submitExam: async(examId) => {
+    const {submitExam} = exam
+    return processMiddlewareSendRequest({
+      ...submitExam,
+      endpoint: submitExam.endpoint.replace(":id", examId.toString()),
+    });
   }
 };

@@ -6,6 +6,7 @@ export interface IHistoryExam {
   class: Class;
   status?: "active" | "not-start" | "expired";
   submissions: Submission[];
+  examLogs:{startTime:Date, endTime: Date}[]
 }
 
 interface Class {
@@ -36,37 +37,47 @@ interface User {
   id: number;
 }
 
+
 export interface IJoinExam {
-  createdAt: string
-  updatedAt: string
-  id: number
-  title: string
-  description?: string
-  startTime: string
-  endTime: string
-  questions: IQuestion[]
-  class: Class
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  title: string;
+  description?: string;
+  startTime: string;
+  endTime: string;
+  examQuestions: IExamQuestion[];
+  submissions: ISubmission[];
+}
+export interface IExamQuestion {
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  score: number;
+  question: Question;
+}
+interface Question {
+  id: number;
+  title: string;
+  content: string;
+  type: string;
+  choices: Choice[];
+  acceptedLanguages?: any;
+  initCode?: any;
+  testCases: any[];
+}
+interface Choice {
+  text: string;
 }
 
-export interface IQuestion {
-  createdAt: string
-  updatedAt: string
-  id: number
-  title: string
-  content: string
-  type: string
-  isPublic: boolean
-  choices: Choice[]
-  acceptedLanguages: number[]
-  initCode: any;
-}
-
-export interface Choice {
-  text: string
-}
-
-
-export enum QuestionType {
-  MULTIPLE_CHOICE = "multiple_choice",
-  CODE = "code",
+interface ISubmission {
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  languageId?: any;
+  code?: any;
+  answer: string;
+  resultJudge0?: any;
+  grade: number;
+  examQuestion: { id: number };
 }

@@ -37,9 +37,6 @@ const Index = () => {
           icon: "pi-info-circle",
           tooltip: "Chi tiết",
           isHidden: (record) => record.status == "active",
-          onClick: (data) => {
-
-          },
         },
       ]}
       onChange={(query) => getAll(query)}

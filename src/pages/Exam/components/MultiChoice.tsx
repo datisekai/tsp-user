@@ -1,27 +1,39 @@
-import {IQuestion} from "../../../types/exam.ts";
+import {IExamQuestion} from "../../../types/exam.ts";
 import React, {useEffect, useState} from "react";
 import {RadioButton} from "primereact/radiobutton";
 import {useExamStore} from "../../../stores/examStore.ts";
 
 interface Props {
-    question: IQuestion,
+    examQuestion: IExamQuestion,
     index: number,
     examId: number
 }
-const MultiChoice:React.FC<Props> = ({question, index, examId}) => {
-    const [choose, setChoose] = useState(null)
-    const {content,choices,id,title} = question;
+const MultiChoice:React.FC<Props> = ({examQuestion, index, examId}) => {
+    const [choose, setChoose] = useState<any>(null)
+    const {content,choices,title} = examQuestion.question;
+    const {id} = examQuestion
 
-    const {submitMultipleChoice} = useExamStore()
+    const {submitMultipleChoice, submissions} = useExamStore()
 
     useEffect(() => {
         if(choose){
-            submitMultipleChoice({questionId: id, answer: choices[choose - 1].text, examId})
+            console.log('choose', choose)
+            submitMultipleChoice({examQuestionId: id, answer: choices[choose - 1].text, examId})
         }
     }, [choose]);
 
+    useEffect(() => {
+        if(submissions && Object.keys(submissions).length > 0){
+            const submission = submissions[id]
+            if(submission){
+                const submissionIndex = choices.findIndex(choice => choice.text === submission.answer)
+                setChoose(submissionIndex + 1)
+            }
+        }
+    },[submissions, choices])
 
-    return <div className={"tw-animate-fade-right tw-animate-once"}>
+
+    return <div className={"tw-animate-fade"}>
         <h2 className={"tw-font-bold"}>Câu hỏi {index + 1}</h2>
         <p className={"tw-mt-4"}>{title}</p>
         <div className={"tw-mt-1"} dangerouslySetInnerHTML={{__html:content}}></div>

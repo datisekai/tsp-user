@@ -34,9 +34,11 @@ export const examSchemas: TableSchema[] = [
         getBadge(value) {
             switch (value) {
                 case "active":
-                    return { severity: "success", value: "Đang mở" }
+                    return { severity: "info", value: "Đang mở" }
                 case "expired":
                     return { severity: "danger", value: "Đã đóng" }
+                case "submitted":
+                    return {severity: "success", value: "Đã nộp bài"}
                 default:
                     return { severity: "danger", value: "Chưa mở" }
             }
@@ -47,7 +49,7 @@ export const examSchemas: TableSchema[] = [
         prop: "submission",
         type: "text",
         render(row, record) {
-            return <span> {record.submission?.length || 0} câu hỏi</span>
+            return <span> {record.submissions?.length || 0} câu hỏi</span>
         },
     },
 ];
