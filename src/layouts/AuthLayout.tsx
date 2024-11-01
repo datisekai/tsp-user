@@ -9,6 +9,7 @@ import { useAuthStore, useNotificationStore } from "../stores";
 import { useSocketStore } from "../stores/socketStore";
 import { useUserStore } from "../stores/userStore";
 import { useExamStore } from "../stores/examStore";
+import {useLanguageStore} from "../stores/languageStore.ts";
 
 const AuthLayout = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(
@@ -20,6 +21,7 @@ const AuthLayout = () => {
   const navigate = useNavigate();
   const { connectSocket, disconnectSocket } = useSocketStore();
   const getExam = useExamStore(state => state.getAll)
+  const getLanguage = useLanguageStore(state => state.getAll)
 
   useEffect(() => {
     if (!token) {
@@ -46,7 +48,7 @@ const AuthLayout = () => {
   }, []);
 
   const initData = () => {
-    Promise.allSettled([getExam()])
+    Promise.allSettled([getExam(),getLanguage()])
 
   }
 

@@ -33,5 +33,12 @@ export const examService = {
       ...submitExam,
       endpoint: submitExam.endpoint.replace(":id", examId.toString()),
     });
-  }
+  },
+  runTestCode: async (body: any) => {
+    const { runTestCode } = exam;
+    return processMiddlewareSendRequest({
+      ...runTestCode,
+      body,
+    });
+  },
 };

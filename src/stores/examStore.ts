@@ -98,5 +98,6 @@ export const useExamStore = create<IState>((set) => ({
       console.log(error);
       return false;
     }
-  }
+  },
+
 }));

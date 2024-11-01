@@ -85,10 +85,10 @@ const JoinExam = () => {
 
 
     return <div className={"tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4"}>
-        <MyCard containerClassName={"tw-flex-1 tw-h-full"}>
+        <MyCard containerClassName={"tw-w-full md:tw-w-[70%] tw-h-full"}>
            <MyLoading isLoading={!examQuestion || !currentExam}>
                {examQuestion && currentExam && <>
-                   {examQuestion.question.type === QuestionType.MULTIPLE_CHOICE ? <MultiChoice key={examQuestion.id} examId={currentExam.id} examQuestion={examQuestion} index={questionIndex}/> : <QuestionCode question={examQuestion} index={questionIndex}/>}
+                   {examQuestion.question.type === QuestionType.MULTIPLE_CHOICE ? <MultiChoice key={examQuestion.id} examId={currentExam.id} examQuestion={examQuestion} index={questionIndex}/> : <QuestionCode examQuestion={examQuestion} index={questionIndex}/>}
                </>}
            </MyLoading>
 

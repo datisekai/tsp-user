@@ -30,3 +30,10 @@ export const getDeviceId = async () => {
 export function generateCharacter(index: number) {
   return String.fromCharCode(65 + index);
 }
+
+
+export function zeroPad(n, width, z?:string) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}

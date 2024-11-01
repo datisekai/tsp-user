@@ -62,9 +62,9 @@ interface Question {
   content: string;
   type: string;
   choices: Choice[];
-  acceptedLanguages?: any;
-  initCode?: any;
-  testCases: any[];
+  acceptedLanguages?: string[];
+  initCode?: {[key: string]: string};
+  testCases: TestCase[];
 }
 interface Choice {
   text: string;
@@ -80,4 +80,12 @@ interface ISubmission {
   resultJudge0?: any;
   grade: number;
   examQuestion: { id: number };
+}
+
+interface TestCase {
+  id: number;
+  input: string;
+  expectedOutput: string;
+  isHidden: boolean;
+  grade: number;
 }

@@ -41,6 +41,10 @@ export const apiConfig = {
     submitExam:{
       method:'POST',
       endpoint:'/api.exam/submit/:id'
+    },
+    runTestCode:{
+      method:'POST',
+      endpoint:'/api.submission/run-test-code'
     }
   },
   attendance: {
