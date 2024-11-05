@@ -3,7 +3,6 @@ import {IExamQuestion} from "../../../types/exam.ts";
 import Editor from '@monaco-editor/react';
 import {useLanguageStore} from "../../../stores/languageStore.ts";
 import {Dropdown} from "primereact/dropdown";
-import {InputText} from "primereact/inputtext";
 import {zeroPad} from "../../../utils";
 import {InputTextarea} from "primereact/inputtextarea";
 import {Button} from "primereact/button";
@@ -111,7 +110,7 @@ const QuestionCode:React.FC<Props> = ({examQuestion, index}) => {
                     <Button onClick={handleSubmit} icon={"pi pi-bolt"} iconPos={"right"} label={"Submit"}></Button>
                 </div>
             </div>
-            <Editor height="40vh" defaultLanguage={editorLanguageName} value={editorValue}/>
+            <Editor height="40vh" defaultLanguage={editorLanguageName} onChange={(value) => setEditorValue(value)} value={editorValue}/>
             <div>
                 <div className={"tw-font-bold"}>Kết quả run code:</div>
                 <div className={'tw-bg-gray-50 tw-space-y-1 tw-mt-4 p-4'}>
