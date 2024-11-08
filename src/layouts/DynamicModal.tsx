@@ -6,9 +6,10 @@ import { useModalStore } from "../stores/modalStore";
 import NotificationModal from "../components/Modal/NotificationModal";
 import LetterModal from "../components/Modal/LetterModal";
 import ScanQrModal from "../components/Modal/ScanQrModal";
+import UpdateProfileModal from "../components/Modal/UpdateProfileModal.tsx";
 
 const DynamicModal = () => {
-  const { modalName, onDismiss, visible, footer, header, style } =
+  const { modalName, onDismiss, visible, footer, header, style, content } =
     useModalStore();
 
   useEffect(() => {
@@ -26,11 +27,15 @@ const DynamicModal = () => {
       footer={footer}
       className={`tw-w-[90%] md:tw-w-[50rem] ${style} modal-${modalName}`}
       onHide={onDismiss}
+      closable={content?.closeable != null ? content.closeable : true}
     >
       {modalName === ModalName.TEST && <TestModal />}
       {modalName === ModalName.NOTIFICATION && <NotificationModal />}
       {modalName === ModalName.LETTER && <LetterModal />}
       {modalName === ModalName.SCAN_QR && <ScanQrModal />}
+      {
+        modalName === ModalName.UPDATE_PROFILE && <UpdateProfileModal/>
+      }
     </Dialog>
   );
 };

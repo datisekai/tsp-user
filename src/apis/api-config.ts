@@ -1,88 +1,98 @@
 export const apiConfig = {
-  uploadImage: {
-    method: "POST",
-    endpoint: "/api.upload/image",
-  },
-  login: {
-    method: "POST",
-    endpoint: "/api.auth/login-student",
-  },
-  getMe: {
-    method: "GET",
-    endpoint: "/api.auth/profile",
-  },
-  updateProfile: {
-    method: "PUT",
-    endpoint: "/api.user/me",
-  },
-  notification: {
-    getAll: {
-      method: "GET",
-      endpoint: "/api.notification/public/me",
+    uploadImage: {
+        method: "POST",
+        endpoint: "/api.upload/image",
     },
-  },
-  exam: {
-    getAll: {
-      method: "GET",
-      endpoint: "/api.exam/public/me",
+    login: {
+        method: "POST",
+        endpoint: "/api.auth/login-student",
     },
-    join:{
-      method:'GET',
-      endpoint:'/api.exam/public/:id'
+    getMe: {
+        method: "GET",
+        endpoint: "/api.auth/profile",
     },
-    submitMultiChoice:{
-      method:'POST',
-      endpoint:'/api.submission/submit-multiple-choice'
+    updateProfile: {
+        method: "PUT",
+        endpoint: "/api.user/me",
     },
-    submitCode:{
-      method:'POST',
-      endpoint:'/api.submission/submit-code'
+    notification: {
+        getAll: {
+            method: "GET",
+            endpoint: "/api.notification/public/me",
+        },
     },
-    submitExam:{
-      method:'POST',
-      endpoint:'/api.exam/submit/:id'
+    exam: {
+        getAll: {
+            method: "GET",
+            endpoint: "/api.exam/public/me",
+        },
+        join: {
+            method: 'GET',
+            endpoint: '/api.exam/public/:id'
+        },
+        submitMultiChoice: {
+            method: 'POST',
+            endpoint: '/api.submission/submit-multiple-choice'
+        },
+        submitCode: {
+            method: 'POST',
+            endpoint: '/api.submission/submit-code'
+        },
+        submitExam: {
+            method: 'POST',
+            endpoint: '/api.exam/submit/:id'
+        },
+        runTestCode: {
+            method: 'POST',
+            endpoint: '/api.submission/run-test-code'
+        }
     },
-    runTestCode:{
-      method:'POST',
-      endpoint:'/api.submission/run-test-code'
-    }
-  },
-  attendance: {
-    getAll: {
-      method: "GET",
-      endpoint: "/api.attendance/public/me",
+    attendance: {
+        getAll: {
+            method: "GET",
+            endpoint: "/api.attendance/public/me",
+        },
     },
-  },
-  class: {
-    getAll: {
-      method: "GET",
-      endpoint: "/api.user/public/class/me",
+    class: {
+        getAll: {
+            method: "GET",
+            endpoint: "/api.user/public/class/me",
+        },
+        getMe: {
+            method: 'GET',
+            endpoint: '/api.class/me'
+        }
     },
-  },
-  letter: {
-    getAll: {
-      method: "GET",
-      endpoint: "/api.letter/public/me",
+    letter: {
+        getAll: {
+            method: "GET",
+            endpoint: "/api.letter/public/me",
+        },
+        create: {
+            method: "POST",
+            endpoint: "/api.letter",
+        },
+        delete: {
+            method: "DELETE",
+            endpoint: "/api.letter/:id",
+        },
     },
-    create: {
-      method: "POST",
-      endpoint: "/api.letter",
+    major: {
+        getMe: {
+            method: 'GET',
+            endpoint: '/api.major/me'
+        }
     },
-    delete: {
-      method: "DELETE",
-      endpoint: "/api.letter/:id",
+    language: {
+        getAll: {
+            method: "GET",
+            endpoint: "/api.language",
+        },
     },
-  },
-  language: {
-    getAll: {
-      method: "GET",
-      endpoint: "/api.language",
+    googleAI: {
+        generateCode: {
+            method: "POST",
+            endpoint: "/api.googleai",
+        },
     },
-  },
-  googleAI: {
-    generateCode: {
-      method: "POST",
-      endpoint: "/api.googleai",
-    },
-  },
 };

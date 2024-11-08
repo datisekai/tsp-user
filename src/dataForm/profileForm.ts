@@ -39,3 +39,29 @@ export const ProfileForm: IForm[] = [
         ],
     },
 ];
+
+export const ProfileFormModal: IForm =
+    {
+        title: "",
+        attributes: [
+            {
+                prop: "code",
+                type: "text",
+                label: "Mã số",
+                col: 12,
+                disabled: true,
+            },
+            {
+                prop: "name",
+                type: "text",
+                label: "Họ và tên",
+                col: 12,
+            },
+            {
+                prop: "email",
+                type: "text",
+                label: "Email",
+                col: 12,
+            },
+        ]
+    }
