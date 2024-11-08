@@ -24,9 +24,7 @@ const Attendance = () => {
         setHeaderActions([
             {
                 icon: 'pi pi-download',
-                iconPos: 'right',
                 title: "Export excel",
-                loading: isLoadingApi,
                 onClick: () => {
                     const dataExcel = attendances.map(item => ({
                         "Môn học": item.attendance.class.major.name,
