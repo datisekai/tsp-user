@@ -1,5 +1,6 @@
 export * from "./upload-file";
 export * from "./local-store";
+export * from './export-excel'
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 export function randomString(length: number) {

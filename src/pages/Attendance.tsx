@@ -7,11 +7,12 @@ import {Card} from "primereact/card";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {useClassStore} from "../stores/classStore.ts";
-import {getPastDate} from "../utils";
+import {exportToExcel, getPastDate} from "../utils";
+import dayjs from "dayjs";
 
 
 const Attendance = () => {
-    const {resetActions, setHeaderTitle, isLoadingApi} = useCommonStore();
+    const {resetActions, setHeaderTitle, isLoadingApi, setHeaderActions} = useCommonStore();
     const {getAll, attendances, total} = useAttendanceStore();
     const [dates, setDates] = useState<any>(null)
     const [selectedClass, setSelectedClass] = useState(null);
@@ -20,6 +21,23 @@ const Attendance = () => {
     useEffect(() => {
         setHeaderTitle("Lịch sử điểm danh");
         getMe()
+        setHeaderActions([
+            {
+                icon: 'pi pi-download',
+                iconPos: 'right',
+                title: "Export excel",
+                loading: isLoadingApi,
+                onClick: () => {
+                    const dataExcel = attendances.map(item => ({
+                        "Môn học": item.attendance.class.major.name,
+                        "Lớp học": item.attendance.class.name,
+                        "Giảng viên": item.attendance.class.teachers.map(t => t.name).join(', '),
+                        "Thời gian": dayjs(item.createdAt).format('DD/MM/YYYY HH:mm'),
+                    }))
+                    exportToExcel(dataExcel, `DIEM_DANH_${Date.now()}.xlsx`)
+                }
+            }
+        ])
         return () => {
             resetActions();
         };
@@ -33,8 +51,6 @@ const Attendance = () => {
     }, [classes])
 
     const applyFilter = () => {
-        console.log('selectedmajor', selectedClass);
-        console.log('date', dates)
         const query: any = {}
         if (selectedClass) {
             query.classId = selectedClass
@@ -48,7 +64,9 @@ const Attendance = () => {
     }
 
     const resetFilter = () => {
-
+        setSelectedClass(null);
+        setDates(null)
+        getAll({})
     }
 
     return (
