@@ -1,17 +1,17 @@
 import dayjs from "dayjs";
-import {Button} from "primereact/button";
-import {Column} from "primereact/column";
-import {DataTable} from "primereact/datatable";
-import {IconField} from "primereact/iconfield";
-import {InputIcon} from "primereact/inputicon";
-import {InputText} from "primereact/inputtext";
-import {Menu} from "primereact/menu";
-import {Paginator, PaginatorPageChangeEvent} from "primereact/paginator";
-import {Tag} from "primereact/tag";
-import {FC, memo, useCallback, useEffect, useRef, useState} from "react";
-import {useDebounceValue} from "usehooks-ts";
-import {TableSchema} from "../../types/table";
-import {useDevice} from "../../hooks";
+import { Button } from "primereact/button";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+import { InputText } from "primereact/inputtext";
+import { Menu } from "primereact/menu";
+import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
+import { Tag } from "primereact/tag";
+import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
+import { useDebounceValue } from "usehooks-ts";
+import { TableSchema } from "../../types/table";
+import { useDevice } from "../../hooks";
 import MyCard from "./MyCard";
 
 export interface IActionTable {
@@ -65,7 +65,13 @@ const MyTable: FC<IMyTable> = ({
 
   useEffect(() => {
     if (onChange && typeof onChange == "function") {
-      onChange({ [keySearch]: debouncedValue, page: first });
+      const query: any = {
+        page: first
+      }
+      if (keySearch) {
+        query[keySearch] = debouncedValue
+      }
+      onChange(query);
     }
   }, [debouncedValue, first]);
 
