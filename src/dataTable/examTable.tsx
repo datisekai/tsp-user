@@ -1,4 +1,4 @@
-import { TableSchema } from "../types/table";
+import {TableSchema} from "../types/table";
 
 export const examSchemas: TableSchema[] = [
     {
@@ -8,6 +8,12 @@ export const examSchemas: TableSchema[] = [
         render(row, record) {
             return <span> {record.class.major.name} - {record.class.name}</span>
         },
+    },
+    {
+        label: "Tiêu đề",
+        prop: "title",
+        type: "text",
+
     },
     {
         label: "Giảng viên",
@@ -34,13 +40,13 @@ export const examSchemas: TableSchema[] = [
         getBadge(value) {
             switch (value) {
                 case "active":
-                    return { severity: "info", value: "Đang mở" }
+                    return {severity: "info", value: "Đang mở"}
                 case "expired":
-                    return { severity: "danger", value: "Đã đóng" }
+                    return {severity: "danger", value: "Đã đóng"}
                 case "submitted":
                     return {severity: "success", value: "Đã nộp bài"}
                 default:
-                    return { severity: "danger", value: "Chưa mở" }
+                    return {severity: "danger", value: "Chưa mở"}
             }
         },
     },

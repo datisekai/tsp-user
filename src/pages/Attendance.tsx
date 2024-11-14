@@ -43,7 +43,7 @@ const Attendance = () => {
 
     const classOptions = useMemo(() => {
         return classes.map(item => ({
-            name: item.name,
+            name: `${item.major.name} - ${item.name}`,
             value: item.id
         }))
     }, [classes])

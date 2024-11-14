@@ -4,4 +4,8 @@ export interface IClass {
     id: number
     name: string
     duration: any
+    major: {
+        code: string,
+        name: string
+    }
 }

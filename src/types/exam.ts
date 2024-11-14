@@ -108,3 +108,41 @@ interface IStatus {
     id: number
     description: string
 }
+
+export interface IHistoryExam {
+    id: number
+    languageId: any
+    code: any
+    answer: string
+    resultJudge0: any
+    questionTemp: QuestionTemp
+    grade: number
+    examQuestion: ExamQuestion
+    showResult: boolean
+}
+
+export interface QuestionTemp {
+    createdAt: string
+    updatedAt: string
+    id: number
+    title: string
+    content: string
+    type: string
+    isPublic: boolean
+    choices: HChoice[]
+    acceptedLanguages: any
+    initCode: HInitCode
+    testCases: any[]
+}
+
+export interface HChoice {
+    text: string
+    isCorrect: boolean
+}
+
+export interface HInitCode {
+}
+
+export interface ExamQuestion {
+    id: number
+}

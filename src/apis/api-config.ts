@@ -45,6 +45,14 @@ export const apiConfig = {
         runTestCode: {
             method: 'POST',
             endpoint: '/api.submission/run-test-code'
+        },
+        getHistory: {
+            method: 'GET',
+            endpoint: '/api.submission/history/:id'
+        },
+        getTakeOrder: {
+            method: 'GET',
+            endpoint: '/api.exam/take-order/:id'
         }
     },
     attendance: {
