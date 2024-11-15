@@ -1,10 +1,10 @@
 import { Avatar } from "primereact/avatar";
 import { Ripple } from "primereact/ripple";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { pathNames, sidebarBottom, sidebarData } from "../../constants";
 import { getRandomAvatar } from "../../utils";
-import { useNotificationStore, useUserStore } from "../../stores";
+import { useCommonStore, useNotificationStore, useUserStore } from "../../stores";
 import { useExamStore } from "../../stores/examStore";
 import { Badge } from "primereact/badge";
 
@@ -28,6 +28,8 @@ const MySideBar: React.FC<IMySideBar> = ({
   const { pathname } = useLocation();
   const { user } = useUserStore();
   const { exams } = useExamStore()
+  const {setHeaderTitle, resetActions} = useCommonStore()
+
   console.log("🚀 ~ user:", user);
   // console.log(user);
 
@@ -56,6 +58,22 @@ const MySideBar: React.FC<IMySideBar> = ({
       return item;
     })
   }, [sidebarData, exams])
+
+  const currentSidebar = useMemo(() => {
+    return sidebarRender.find(item => item.path === pathname) || sidebarBottom.find(item => item.path === pathname)
+  }, [pathname, sidebarRender])
+
+  useEffect(() => {
+    if (currentSidebar && currentSidebar.title) {
+      setHeaderTitle(currentSidebar.title)
+    }
+
+  }, [currentSidebar])
+
+
+  useEffect(() => {
+    resetActions()
+  }, [pathname])
   return (
     <div
       className={`tw-fixed tw-top-0 tw-left-0 tw-h-full tw-bg-gray-100 tw-shadow-md tw-z-20 tw-transition-transform tw-duration-300 ${isSidebarVisible ? "tw-translate-x-0" : "-tw-translate-x-full"

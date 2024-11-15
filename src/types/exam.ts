@@ -48,6 +48,10 @@ export interface IJoinExam {
     endTime: string;
     examQuestions: IExamQuestion[];
     submissions: ISubmission[];
+    showResult: boolean,
+    logOutTab: boolean
+    blockMouseRight: boolean
+    blockControlCVX: boolean
 }
 
 export interface IExamQuestion {
@@ -145,4 +149,10 @@ export interface HInitCode {
 
 export interface ExamQuestion {
     id: number
+}
+
+export enum CheatAction {
+  OUT_TAB = 'out_tab',
+  MOUSE_RIGHT = 'mouse_right',
+  CTROL_CVX = 'ctrol_cvx',
 }

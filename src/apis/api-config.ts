@@ -53,6 +53,10 @@ export const apiConfig = {
         getTakeOrder: {
             method: 'GET',
             endpoint: '/api.exam/take-order/:id'
+        },
+        saveAction:{
+            method:'POST',
+            endpoint:'/api.exam/action/:id'
         }
     },
     attendance: {

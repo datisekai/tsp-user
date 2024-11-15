@@ -8,6 +8,7 @@ import MyLoading from "../../components/UI/MyLoading.tsx";
 import {pathNames} from "../../constants";
 import {useLanguageStore} from "../../stores/languageStore.ts";
 import PreviewMultiChoice from "./components/PreviewMultiChoice.tsx";
+import PreviewQuestionCode from "./components/PreviewQuestionCode.tsx";
 
 const HistoryExam = () => {
     const {id} = useParams()
@@ -40,15 +41,31 @@ const HistoryExam = () => {
         return history.submissions[examQuestionId]
     }, [history, questionIndex])
 
-    console.log('history', history)
 
+    const examResult = useMemo(()=>{
+        let count = 0;
+        let grades = 0;
+        if(history && history.submissions && Object.keys(history.submissions).length > 0){
+            for(const s of Object.values(history.submissions)){
+                if((s as any)?.grade){
+                    count += 1;
+                    grades += (s as any)?.grade
+                }
+            }
+        }
+
+        return {
+            count, grades
+        }
+    },[history])
 
     return <div className={"tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4"}>
         <MyCard containerClassName={"tw-w-full md:tw-w-[70%] tw-h-full"}>
             <MyLoading isLoading={!currentExam}>
                 {currentExam?.questionTemp?.type === "multiple_choice" ?
                     <PreviewMultiChoice showResult={history.showResult} index={questionIndex}
-                                        data={currentExam}/> : null}
+                                        data={currentExam}/> : <PreviewQuestionCode  showResult={history.showResult} index={questionIndex}
+                                        data={currentExam}/>}
             </MyLoading>
 
             <div className={"tw-flex tw-mt-4 tw-justify-center tw-gap-2"}>
@@ -60,10 +77,17 @@ const HistoryExam = () => {
             </div>
         </MyCard>
         <MyCard containerClassName={"tw-w-full md:tw-w-[30%]"}>
+       {history.showResult &&  <div className="tw-mb-2 tw-font-bold bg-primary tw-px-4 tw-py-2">
+            <p>Số câu đúng: {examResult?.count}/{history?.takeOrder?.length}</p>
+            <p>Điểm số: {examResult.grades}</p>
+        </div>
+}
             <h3>Thời gian làm bài</h3>
-            <div>
+            <div className="tw-font-bold tw-mb-2">
                 Đã kết thúc
             </div>
+
+
             <p className={"tw-italic"}>Chú ý: Bạn có thể click vào số thứ tự câu hỏi bên dưới để chuyển câu.</p>
             <div className={"tw-gap-1 tw-mt-4 tw-flex tw-flex-wrap"}>
                 {history?.takeOrder?.map((item, i) => <div className={"tw-relative"} key={item}>

@@ -13,8 +13,13 @@ const PreviewMultiChoice: React.FC<Props> = ({index, data, showResult}) => {
 
     const getStatusQuestion = (choice: any) => {
         if (!showResult) return ''
-        if (choice.isCorrect) return 'tw-green-500'
-        return 'tw-red-500'
+        if (choice.isCorrect) return 'tw-bg-green-500 tw-text-white'
+
+        if(!choice.isCorrect && data.answer == choice.text){
+            return 'tw-bg-red-500 tw-text-white'
+        }
+
+        return ''
     }
     return <div className={"tw-animate-fade"}>
         <h2 className={"tw-font-bold"}>Câu hỏi {index + 1}</h2>

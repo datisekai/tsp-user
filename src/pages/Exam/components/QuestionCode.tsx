@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { IExamQuestion, IRunCodeResult } from "../../../types/exam.ts";
+import { IExamQuestion, IJoinExam, IRunCodeResult } from "../../../types/exam.ts";
 import Editor from '@monaco-editor/react';
 import { useLanguageStore } from "../../../stores/languageStore.ts";
 import { Dropdown } from "primereact/dropdown";
@@ -16,10 +16,11 @@ import { useCommonStore } from "../../../stores/commonStore.ts";
 interface Props {
     examQuestion: IExamQuestion,
     index: number,
-    examId: number
+    examId: number,
+    currentExam: IJoinExam
 }
 
-const QuestionCode: React.FC<Props> = ({ examQuestion, index, examId }) => {
+const QuestionCode: React.FC<Props> = ({ examQuestion, index, examId, currentExam }) => {
     const { question } = examQuestion;
     const { title, content, acceptedLanguages, initCode, testCases } = question;
     const { isLoadingApi } = useCommonStore()
@@ -112,6 +113,7 @@ const QuestionCode: React.FC<Props> = ({ examQuestion, index, examId }) => {
         })
     }
 
+
     const getTestcaseResult = (result: IRunCodeResult) => {
         console.log('result', result)
         if (!result) return "Không có"
@@ -159,7 +161,7 @@ const QuestionCode: React.FC<Props> = ({ examQuestion, index, examId }) => {
                     <Button onClick={handleSubmit} loading={isLoadingApi} icon={"pi pi-bolt"} iconPos={"right"} label={"Submit"}></Button>
                 </div>
             </div>
-            <Editor height="40vh" defaultLanguage={editorLanguageName}
+            <Editor height="40vh" options={{contextmenu: !currentExam.blockControlCVX}} defaultLanguage={editorLanguageName}
                 onChange={(value) => setEditorValue(value as string)} value={editorValue} />
             {Object.keys(runCode).length > 0 && <div>
                 <div className={"tw-font-bold"}>Kết quả run code:</div>
