@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useExamStore } from "../../stores/examStore.ts";
 import { useConfirm, useToast } from "../../hooks";
 import MyCard from "../../components/UI/MyCard.tsx";
@@ -11,15 +11,19 @@ import { Badge } from "primereact/badge";
 import MyLoading from "../../components/UI/MyLoading.tsx";
 import { pathNames, QuestionType } from "../../constants";
 import { useLanguageStore } from "../../stores/languageStore.ts";
+import { CheatAction } from "../../types/exam.ts";
 
 const JoinExam = () => {
+  const cheatActionsQueue = useRef<CheatAction[]>([]);
   const { id } = useParams();
-  const { joinExam, currentExam, submissions, submitExam } = useExamStore();
+  const { joinExam, currentExam, submissions, submitExam, saveAction } =
+    useExamStore();
   const { showToast } = useToast();
   const [questionIndex, setQuestionIndex] = useState(0);
   const { onConfirm } = useConfirm();
   const navigate = useNavigate();
   const { languages } = useLanguageStore();
+  const intervalRef = useRef<any>(null);
 
   useEffect(() => {
     getJoinExam();
@@ -28,46 +32,77 @@ const JoinExam = () => {
   useEffect(() => {
     // Hàm chặn chuột phải
     const handleContextMenu = (e) => {
-        e.preventDefault();
-        showToast({
-            severity: "danger",
-            summary: "Cảnh báo",
-            message: "Vui lòng không dùng chuột phải!",
-        });
+      e.preventDefault();
+      cheatActionsQueue.current.push(CheatAction.MOUSE_RIGHT);
+      showToast({
+        severity: "danger",
+        summary: "Cảnh báo",
+        message: "Vui lòng không dùng chuột phải!",
+      });
     };
 
     const handleKeydown = (e) => {
-        if (
-            (e.ctrlKey || e.metaKey) &&
-            (e.key === "v" || e.key === "c" || e.key === "x")
-        ) {
-            e.preventDefault();
-            showToast({
-                severity: "danger",
-                summary: "Cảnh báo",
-                message: "Vui lòng không Copy, Cut, Paste!",
-            });
-        }
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (e.key === "v" || e.key === "c" || e.key === "x")
+      ) {
+        e.preventDefault();
+        showToast({
+          severity: "danger",
+          summary: "Cảnh báo",
+          message: "Vui lòng không Copy, Cut, Paste!",
+        });
+        cheatActionsQueue.current.push(CheatAction.CTROL_CVX);
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        cheatActionsQueue.current.push(CheatAction.OUT_TAB);
+        onConfirm({
+          header: "Cảnh báo",
+          icon: "pi pi-ban",
+          message: "Vui lòng không chuyển tab khi làm bài!",
+          onAccept: () => {},
+        });
+      }
     };
 
     if (currentExam && currentExam.blockMouseRight) {
-        document.addEventListener("contextmenu", handleContextMenu);
+      document.addEventListener("contextmenu", handleContextMenu);
     }
-    
+
     if (currentExam && currentExam.blockControlCVX) {
-        document.addEventListener("keydown", handleKeydown);
+      document.addEventListener("keydown", handleKeydown);
     }
+
+    if (currentExam && currentExam.logOutTab) {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+    }
+
+    intervalRef.current = setInterval(() => {
+      if (cheatActionsQueue.current.length > 0) {
+        saveAction(currentExam.id, cheatActionsQueue.current);
+        cheatActionsQueue.current = [];
+      }
+    }, 15000);
 
     return () => {
-        if (currentExam && currentExam.blockMouseRight) {
-            document.removeEventListener("contextmenu", handleContextMenu);
-        }
-        if (currentExam && currentExam.blockControlCVX) {
-            document.removeEventListener("keydown", handleKeydown);
-        }
+      if (currentExam && currentExam.blockMouseRight) {
+        document.removeEventListener("contextmenu", handleContextMenu);
+      }
+      if (currentExam && currentExam.blockControlCVX) {
+        document.removeEventListener("keydown", handleKeydown);
+      }
+      if (currentExam && currentExam.blockControlCVX) {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      }
+      clearInterval(intervalRef.current);
     };
-}, [currentExam, showToast]);
-
+  }, [currentExam, showToast, onConfirm, saveAction]);
 
   const getJoinExam = async () => {
     const result = await joinExam(Number(id));
@@ -131,9 +166,9 @@ const JoinExam = () => {
 
   return (
     <div
-      className={
-        "tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4 tw-select-none"
-      }
+      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${
+        currentExam?.blockControlCVX ? "tw-select-none" : ""
+      }`}
     >
       <MyCard containerClassName={"tw-w-full md:tw-w-[70%] tw-h-full"}>
         <MyLoading isLoading={!examQuestion || !currentExam}>

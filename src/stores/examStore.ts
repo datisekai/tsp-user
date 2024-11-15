@@ -21,6 +21,7 @@ interface IState {
     submitExam: (examId: number) => Promise<boolean>;
     getHistory: (id: number) => Promise<void>;
     getTakeOrder: (id: number) => Promise<void>;
+    saveAction: (examId: number, action: any) => Promise<any>
 }
 
 const getStatus = (exam: IHistoryExam) => {
@@ -160,6 +161,16 @@ export const useExamStore = create<IState>((set) => ({
 
         } catch (error) {
             console.log(error);
+        }
+    },
+    saveAction: async (examId, action) => {
+        try {
+            const resp = await examService.saveAction(examId, action);
+            console.log("🚀 ~ saveAction: ~ resp:", resp);
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
         }
     }
 }));

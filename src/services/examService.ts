@@ -1,4 +1,5 @@
 import {apiConfig, processMiddlewareSendRequest} from "../apis";
+import { CheatAction } from "../types/exam";
 
 const {exam} = apiConfig;
 export const examService = {
@@ -55,4 +56,14 @@ export const examService = {
             endpoint: getTakeOrder.endpoint.replace(":id", examId.toString())
         });
     },
+    saveAction: async(examId:number, action: CheatAction[])=>{
+        const {saveAction} = exam;
+        return processMiddlewareSendRequest({
+            ...saveAction,
+            endpoint: saveAction.endpoint.replace(":id", examId.toString()),
+            body: {
+                data:action.map(item => ({action: item}))
+            }
+        });
+    }
 };
