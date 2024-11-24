@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import MyTable from "../components/UI/MyTable";
 import { ModalName } from "../constants";
-import { notificationSchemas } from "../dataTable/notificationTable";
 import { useCommonStore, useModalStore } from "../stores";
 import { useNotificationStore } from "../stores/notificationStore";
+import { notificationSchemas } from "../dataTable/notificationTable";
 
 const Notification = () => {
   const { resetActions, setHeaderTitle } = useCommonStore();
   const { getAll, notifications, total } = useNotificationStore();
   const onToggle = useModalStore((state) => state.onToggle);
+  const { isLoadingApi } = useCommonStore();
 
   useEffect(() => {
     setHeaderTitle("Thông báo");
@@ -18,6 +19,7 @@ const Notification = () => {
   }, []);
   return (
     <MyTable
+      isLoading={isLoadingApi}
       schemas={notificationSchemas}
       data={notifications.map((item) => ({
         ...item,

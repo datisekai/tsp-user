@@ -8,11 +8,12 @@ import { InputText } from "primereact/inputtext";
 import { Menu } from "primereact/menu";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Tag } from "primereact/tag";
-import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
+import { FC, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
 import { TableSchema } from "../../types/table";
 import { useDevice } from "../../hooks";
 import MyCard from "./MyCard";
+import { getIndex } from "../../utils";
 
 export interface IActionTable {
   title?: string;
@@ -88,6 +89,9 @@ const MyTable: FC<IMyTable> = ({
     if (schema?.render && typeof schema.render == "function") {
       return schema.render(value, row);
     }
+    if (schema?.prop === 'index') {
+      return getIndex(options.rowIndex, perPage, first);
+    }
     switch (schema?.type) {
       case "text":
       case "number":
@@ -127,20 +131,23 @@ const MyTable: FC<IMyTable> = ({
     );
   }, [keySearch]);
 
+
+  const getActions = (actions: IActionTable[], row: any) => {
+    return actions.filter((action) => {
+      if (action && action.isHidden && typeof action.isHidden == 'function') {
+        return !action.isHidden(row)
+      }
+      return true;
+    });
+  }
+
   const renderActions = useCallback(
     (rowData: any, options: any) => {
-
-      const actionDisplay = actions.filter((action) => {
-        if (action && action.isHidden && typeof action.isHidden == 'function') {
-          return !action.isHidden(rowData)
-        }
-        return true;
-      });
-
+      const actionActives = getActions(actions, rowData);
       const items = [
         {
           label: "Hành động",
-          items: actionDisplay.map((action) => ({
+          items: actionActives.map((action) => ({
             label: action.tooltip,
             icon: `pi ${action.icon}`,
             command: () => {
@@ -155,10 +162,10 @@ const MyTable: FC<IMyTable> = ({
 
       return (
         <div className="tw-w-full tw-flex tw-gap-2 tw-flex-wrap tw-items-center">
-          {actionDisplay && actionDisplay.length > 0 && (
+          {actionActives && actionActives.length > 0 && (
             <div
               className={
-                actionDisplay.length < 4 ? "tw-flex md:tw-hidden" : "tw-flex"
+                actionActives.length < 4 ? "tw-flex md:tw-hidden" : "tw-flex"
               }
             >
               <Menu
@@ -179,11 +186,11 @@ const MyTable: FC<IMyTable> = ({
               />
             </div>
           )}
-          {actionDisplay?.map((action, index) => (
+          {actionActives?.map((action, index) => (
             <Button
               size="small"
               className={
-                actionDisplay.length < 4 ? "md:tw-flex tw-hidden" : "tw-hidden"
+                actionActives.length < 4 ? "md:tw-flex tw-hidden" : "tw-hidden"
               }
               tooltip={action.tooltip}
               tooltipOptions={{ position: "top" }}
@@ -241,20 +248,20 @@ const MyTable: FC<IMyTable> = ({
         </MyCard>
       ) : (
         <div className="tw-space-y-2">
-          {data.map((item) => {
+          {data.map((item, i) => {
             return (
               <MyCard key={item.id}>
                 {schemas.map((s) => {
                   return (
                     <div key={s.prop}>
                       {s.label}:{" "}
-                      <strong>{bodyTemplate(item, { field: s.prop })}</strong>
+                      <strong>{bodyTemplate(item, { field: s.prop, rowIndex: i })}</strong>
                     </div>
                   );
                 })}
 
                 <div className="tw-mt-2 tw-space-x-2">
-                  {actions?.map((action, index) => (
+                  {getActions(actions, item)?.map((action, index) => (
                     <Button
                       size="small"
                       tooltip={action.tooltip}

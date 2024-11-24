@@ -12,6 +12,7 @@ import MyLoading from "../../components/UI/MyLoading.tsx";
 import { pathNames, QuestionType } from "../../constants";
 import { useLanguageStore } from "../../stores/languageStore.ts";
 import { CheatAction } from "../../types/exam.ts";
+import { useCommonStore } from "../../stores/commonStore.ts";
 
 const JoinExam = () => {
   const cheatActionsQueue = useRef<CheatAction[]>([]);
@@ -24,10 +25,15 @@ const JoinExam = () => {
   const navigate = useNavigate();
   const { languages } = useLanguageStore();
   const intervalRef = useRef<any>(null);
+  const { setHeaderTitle } = useCommonStore()
 
   useEffect(() => {
     getJoinExam();
   }, [id]);
+
+  useEffect(() => {
+    setHeaderTitle("Làm bài thi")
+  }, [])
 
   useEffect(() => {
     // Hàm chặn chuột phải
@@ -63,7 +69,7 @@ const JoinExam = () => {
           header: "Cảnh báo",
           icon: "pi pi-ban",
           message: "Vui lòng không chuyển tab khi làm bài!",
-          onAccept: () => {},
+          onAccept: () => { },
         });
       }
     };
@@ -166,9 +172,8 @@ const JoinExam = () => {
 
   return (
     <div
-      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${
-        currentExam?.blockControlCVX ? "tw-select-none" : ""
-      }`}
+      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${currentExam?.blockControlCVX ? "tw-select-none" : ""
+        }`}
     >
       <MyCard containerClassName={"tw-w-full md:tw-w-[70%] tw-h-full"}>
         <MyLoading isLoading={!examQuestion || !currentExam}>

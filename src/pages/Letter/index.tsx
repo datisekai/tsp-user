@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { ModalName, pathNames } from "../../constants";
 import { letterSchemas } from "../../dataTable/letterTable";
 import { useConfirm, useToast } from "../../hooks";
-import {LetterStatus} from "../../types/letter.ts";
+import { LetterStatus } from "../../types/letter.ts";
+import MyLoading from "../../components/UI/MyLoading.tsx";
 
 const Letter = () => {
-  const { setHeaderActions, resetActions, setHeaderTitle } = useCommonStore();
+  const { setHeaderActions, resetActions, setHeaderTitle, isLoadingApi } = useCommonStore();
   const { getAll, letters, total, _delete } = useLetterStore();
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -56,7 +57,7 @@ const Letter = () => {
           life: 3000,
         });
       },
-      onReject: () => {},
+      onReject: () => { },
     };
     onConfirm(data);
   };
@@ -67,6 +68,7 @@ const Letter = () => {
       data={letters}
       totalRecords={total}
       onChange={(query) => getAll(query)}
+      isLoading={isLoadingApi}
       actions={[
         {
           icon: "pi-info-circle",
@@ -83,7 +85,7 @@ const Letter = () => {
           tooltip: "Xóa",
           icon: "pi-trash",
           severity: "danger",
-          isHidden:(record:any) => record.status !== LetterStatus.PENDING
+          isHidden: (record: any) => record?.status !== LetterStatus.PENDING
         },
       ]}
     />

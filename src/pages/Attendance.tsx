@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import { useClassStore } from "../stores/classStore.ts";
 import { exportToExcel, getPastDate } from "../utils";
 import dayjs from "dayjs";
+import MyLoading from "../components/UI/MyLoading.tsx";
 
 const Attendance = () => {
   const { resetActions, setHeaderTitle, isLoadingApi, setHeaderActions } =
@@ -19,7 +20,7 @@ const Attendance = () => {
   const { getMe, classes } = useClassStore();
 
   useEffect(() => {
-    setHeaderTitle("Lịch sử điểm danh");
+    setHeaderTitle("Điểm danh");
     getMe({ pagination: false });
     setHeaderActions([
       {
@@ -72,7 +73,7 @@ const Attendance = () => {
   return (
     <div className={"tw-space-y-4"}>
       <Card title={"Tìm kiếm"}>
-        <div className={"tw-flex tw-items-end tw-gap-4"}>
+        <div className={"tw-flex tw-items-end tw-gap-4 tw-flex-wrap"}>
           <div>
             <div className={"mb-1"}>Lọc theo môn</div>
             <Dropdown
@@ -118,6 +119,7 @@ const Attendance = () => {
         schemas={attendanceSchemas}
         data={attendances}
         totalRecords={total}
+        isLoading={isLoadingApi}
         onChange={(query) => getAll(query)}
       />
     </div>

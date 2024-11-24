@@ -48,7 +48,7 @@ const Index = () => {
   return (
     <div className={"tw-space-y-4"}>
       <Card title={"Tìm kiếm"}>
-        <div className={"tw-flex tw-items-end tw-gap-4"}>
+        <div className={"tw-flex tw-items-end tw-gap-4 tw-flex-wrap"}>
           <div>
             <div className={"mb-1"}>Lọc theo môn</div>
             <Dropdown
@@ -85,6 +85,7 @@ const Index = () => {
         schemas={examSchemas}
         data={exams}
         totalRecords={total}
+        isLoading={isLoadingApi}
         actions={[
           {
             icon: "pi-sign-in",

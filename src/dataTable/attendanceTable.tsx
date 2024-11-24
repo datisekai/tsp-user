@@ -2,21 +2,17 @@ import { TableSchema } from "../types/table";
 
 export const attendanceSchemas: TableSchema[] = [
   {
-    label: "Môn học",
+    label: "#",
+    prop: "index",
+    type: "number",
+  },
+  {
+    label: "Lớp học",
     prop: "major",
     type: "text",
     render(row, record) {
       const { attendance } = record;
-      return <span> {attendance.class.major.code} - {attendance.class.major.name}</span>
-    },
-  },
-  {
-    label: "Lớp học",
-    prop: "class",
-    type: "text",
-    render(row, record) {
-      const { attendance } = record;
-      return <span> {attendance.class.name}</span>
+      return <span> {attendance.class.major.name} - {attendance.class.name}</span>
     },
   },
   {

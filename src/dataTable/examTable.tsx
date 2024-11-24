@@ -3,6 +3,11 @@ import { TableSchema } from "../types/table";
 
 export const examSchemas: TableSchema[] = [
   {
+    label: "#",
+    prop: "index",
+    type: "number",
+  },
+  {
     label: "Lớp học",
     prop: "class",
     type: "text",
@@ -34,14 +39,22 @@ export const examSchemas: TableSchema[] = [
     },
   },
   {
-    label: "Bắt đầu",
+    label: "Thời gian hiệu lực",
     prop: "startTime",
     type: "datetime",
+    render(row, record) {
+      return `${dayjs(record.startTime).format("DD/MM/YYYY HH:mm")} - ${dayjs(
+        record.endTime
+      ).format("DD/MM/YYYY HH:mm")}`;
+    },
   },
   {
-    label: "Kết thúc",
-    prop: "endTime",
-    type: "datetime",
+    label: "Thời gian làm bài",
+    prop: "duration",
+    type: "number",
+    render(row, record) {
+      return `${record.duration || 0} phút`;
+    },
   },
   {
     label: "Trạng thái",
