@@ -1,15 +1,15 @@
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Avatar} from "primereact/avatar";
-import {Button} from "primereact/button";
-import {FloatLabel} from "primereact/floatlabel";
-import {InputText} from "primereact/inputtext";
-import {useEffect, useState} from "react";
-import {useForm} from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Avatar } from "primereact/avatar";
+import { Button } from "primereact/button";
+import { FloatLabel } from "primereact/floatlabel";
+import { InputText } from "primereact/inputtext";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import {useToast} from "../hooks/useToast";
-import {useAuthStore, useCommonStore} from "../stores";
-import {useNavigate} from "react-router-dom";
-import {pathNames} from "../constants";
+import { useToast } from "../hooks/useToast";
+import { useAuthStore, useCommonStore } from "../stores";
+import { useNavigate } from "react-router-dom";
+import { pathNames } from "../constants";
 
 const Login = () => {
   const [code, setCode] = useState<string>("");
@@ -134,6 +134,11 @@ const Login = () => {
                         type="password"
                         invalid={!!errors.password}
                         className="tw-pr-10"
+                        onKeyDown={e => {
+                          if (e.key === "Enter") {
+                            e.preventDefault()
+                          }
+                        }}
                       />
                       <label htmlFor="password">Mật khẩu</label>
                     </FloatLabel>
