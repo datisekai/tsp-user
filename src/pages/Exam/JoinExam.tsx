@@ -13,6 +13,7 @@ import { pathNames, QuestionType } from "../../constants";
 import { useLanguageStore } from "../../stores/languageStore.ts";
 import { CheatAction } from "../../types/exam.ts";
 import { useCommonStore } from "../../stores/commonStore.ts";
+import CodeHtml from "./components/CodeHtml.tsx";
 
 const JoinExam = () => {
   const cheatActionsQueue = useRef<CheatAction[]>([]);
@@ -25,15 +26,15 @@ const JoinExam = () => {
   const navigate = useNavigate();
   const { languages } = useLanguageStore();
   const intervalRef = useRef<any>(null);
-  const { setHeaderTitle } = useCommonStore()
+  const { setHeaderTitle } = useCommonStore();
 
   useEffect(() => {
     getJoinExam();
   }, [id]);
 
   useEffect(() => {
-    setHeaderTitle("Làm bài thi")
-  }, [])
+    setHeaderTitle("Làm bài thi");
+  }, []);
 
   useEffect(() => {
     // Hàm chặn chuột phải
@@ -69,7 +70,7 @@ const JoinExam = () => {
           header: "Cảnh báo",
           icon: "pi pi-ban",
           message: "Vui lòng không chuyển tab khi làm bài!",
-          onAccept: () => { },
+          onAccept: () => {},
         });
       }
     };
@@ -172,21 +173,23 @@ const JoinExam = () => {
 
   return (
     <div
-      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${currentExam?.blockControlCVX ? "tw-select-none" : ""
-        }`}
+      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${
+        currentExam?.blockControlCVX ? "tw-select-none" : ""
+      }`}
     >
-      <MyCard containerClassName={"tw-w-full md:tw-w-[70%] tw-h-full"}>
+      <MyCard containerClassName={"tw-flex-1 tw-h-full"}>
         <MyLoading isLoading={!examQuestion || !currentExam}>
           {examQuestion && currentExam && (
             <>
-              {examQuestion.question.type === QuestionType.MULTIPLE_CHOICE ? (
+              {examQuestion.question.type === QuestionType.MULTIPLE_CHOICE && (
                 <MultiChoice
                   key={examQuestion.id}
                   examId={currentExam.id}
                   examQuestion={examQuestion}
                   index={questionIndex}
                 />
-              ) : (
+              )}
+              {examQuestion.question.type === QuestionType.CODE && (
                 <MyLoading isLoading={languages.length == 0}>
                   <QuestionCode
                     examId={currentExam.id}
@@ -195,6 +198,14 @@ const JoinExam = () => {
                     currentExam={currentExam}
                   />
                 </MyLoading>
+              )}
+              {examQuestion.question.type === QuestionType.CODE_HTML && (
+                <CodeHtml
+                  examId={currentExam.id}
+                  examQuestion={examQuestion}
+                  index={questionIndex}
+                  currentExam={currentExam}
+                />
               )}
             </>
           )}
@@ -218,7 +229,7 @@ const JoinExam = () => {
           ></Button>
         </div>
       </MyCard>
-      <MyCard containerClassName={"tw-w-full md:tw-w-[30%]"}>
+      <MyCard containerClassName={"tw-w-full md:tw-w-[15%] tw-relative"}>
         <h3>Thời gian làm bài</h3>
         {currentExam.endTime && (
           <div>

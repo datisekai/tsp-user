@@ -12,6 +12,7 @@ export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 export enum QuestionType {
   MULTIPLE_CHOICE = "multiple_choice",
   CODE = "code",
+  CODE_HTML = "code_html",
 }
 
 export const LetterTypeData: any = {
