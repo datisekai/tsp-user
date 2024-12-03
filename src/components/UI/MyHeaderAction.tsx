@@ -14,7 +14,7 @@ const MyHeaderAction = () => {
   const navigate = useNavigate();
   const menuRight = useRef<Menu>(null);
   const { isMobile } = useDevice();
-  const { onToggle } = useModalStore()
+  const { onToggle } = useModalStore();
 
   const getIcon = (action: IAction) => {
     if (!action.icon) return undefined;
@@ -53,16 +53,31 @@ const MyHeaderAction = () => {
   }, [actions, handleClick]);
 
   return (
-    <div className="tw-flex tw-flex-end">
+    <div className="tw-flex tw-flex-end tw-gap-2">
+      <Button
+        outlined
+        icon="pi pi-sign-in"
+        tooltip="Tham gia lớp"
+        label={isMobile ? "" : "Tham gia lớp"}
+        tooltipOptions={{ position: "left" }}
+        severity="warning"
+        onClick={() =>
+          onToggle(ModalName.JOIN_CLASS, {
+            header: "Tham gia lớp với mã tham gia",
+          })
+        }
+      />
       <Button
         outlined
         icon="pi pi-qrcode"
         tooltip="QR Điểm danh"
         label={isMobile ? "" : "Quét QR"}
         tooltipOptions={{ position: "left" }}
-        onClick={() => onToggle(ModalName.SCAN_QR, {
-          header: "Quét QR điểm danh"
-        })}
+        onClick={() =>
+          onToggle(ModalName.SCAN_QR, {
+            header: "Quét QR điểm danh",
+          })
+        }
       />
       <div className="tw-hidden md:tw-flex tw-pr-2 ml-2 tw-flex-1 tw-w-full tw-gap-2 tw-justify-end tw-items-center">
         {actions.map((action, index) => (
