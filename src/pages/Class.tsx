@@ -22,7 +22,27 @@ const Class = () => {
   }, []);
 
   return (
-    <MyTable isLoading={isLoadingApi} schemas={classSchemas} data={classes} />
+    <MyTable
+      isLoading={isLoadingApi}
+      schemas={classSchemas}
+      data={classes}
+      actions={[
+        {
+          title: "",
+          tooltip: "Liên hệ GV",
+          icon: "pi-phone",
+          severity: "danger",
+          onClick(data, options) {
+            const teacher = data?.teachers?.[0];
+            if (!teacher || !teacher.phone) return;
+            window.open(`https://zalo.me/${teacher?.phone}`, "_blank");
+          },
+          isHidden(record) {
+            return !record?.teachers?.[0]?.phone;
+          },
+        },
+      ]}
+    />
   );
 };
 

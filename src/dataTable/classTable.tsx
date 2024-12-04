@@ -15,6 +15,15 @@ export const classSchemas: TableSchema[] = [
     },
   },
   {
+    label: "Giảng viên",
+    prop: "teachers",
+    type: "text",
+    render(row, record) {
+      return `${row?.map((item) => item.name).join(", ")}`;
+    },
+  },
+
+  {
     label: "Thời gian",
     prop: "duration",
     type: "text",
