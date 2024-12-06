@@ -175,7 +175,6 @@ export const useExamStore = create<IState>((set) => ({
   saveAction: async (examId, action) => {
     try {
       const resp = await examService.saveAction(examId, action);
-      console.log("🚀 ~ saveAction: ~ resp:", resp);
       return true;
     } catch (error) {
       console.log(error);
