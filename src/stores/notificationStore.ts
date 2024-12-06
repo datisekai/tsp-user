@@ -14,7 +14,6 @@ export const useNotificationStore = create<IState>((set) => ({
   getAll: async (query) => {
     try {
       const resp = await notificationService.getAll(query);
-      console.log("🚀 ~ getAll: ~ resp:", resp);
 
       set((state) => ({
         ...state,

@@ -70,7 +70,6 @@ const QuestionCode: React.FC<Props> = ({
       Object.keys(initCode).length > 0
     ) {
       const submission = submissions[examQuestion.id];
-      console.log("initcode", initCode, submission, defaultLanguage);
       let newEditorValue = initCode[defaultLanguage.id] || "//some code";
       if (submission && submission.languageId == defaultLanguage.id) {
         newEditorValue = submission.answer;
@@ -111,7 +110,6 @@ const QuestionCode: React.FC<Props> = ({
           }
         });
         setRunCode(newRunCode);
-        console.log("result", result);
       })
       .finally(() => {
         setLoadingRunCode(false);
@@ -139,7 +137,6 @@ const QuestionCode: React.FC<Props> = ({
   };
 
   const getTestcaseResult = (result: IRunCodeResult) => {
-    console.log("result", result);
     if (!result) return "Không có";
     if (result.stdout) return decode(result.stdout);
     if (result.compile_output) return decode(result.compile_output);

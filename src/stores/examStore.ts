@@ -54,7 +54,6 @@ export const useExamStore = create<IState>((set) => ({
   getAll: async (query) => {
     try {
       const resp = await examService.getAll(query);
-      console.log("🚀 ~ getAll: ~ resp:", resp);
 
       set((state) => ({
         ...state,
@@ -81,7 +80,6 @@ export const useExamStore = create<IState>((set) => ({
         };
       });
 
-      console.log("submission", submissions);
       set((state) => ({ ...state, currentExam, submissions }));
       return { success: true, message: "" };
     } catch (error: any) {
@@ -99,7 +97,6 @@ export const useExamStore = create<IState>((set) => ({
           [body.examQuestionId]: { ...body, answer: body.code },
         },
       }));
-      console.log("🚀 ~ submitCode: ~ resp:", resp);
     } catch (error) {
       console.log(error);
     }
@@ -115,7 +112,6 @@ export const useExamStore = create<IState>((set) => ({
           [body.examQuestionId]: { ...body, answer: body.code },
         },
       }));
-      console.log("🚀 ~ submitCode: ~ resp:", resp);
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +123,6 @@ export const useExamStore = create<IState>((set) => ({
         ...state,
         submissions: { ...state.submissions, [body.examQuestionId]: body },
       }));
-      console.log("🚀 ~ submitMultipleChoice: ~ resp:", resp);
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +131,6 @@ export const useExamStore = create<IState>((set) => ({
   submitExam: async (examId) => {
     try {
       const resp = await examService.submitExam(examId);
-      console.log("🚀 ~ submitExam: ~ resp:", resp);
       return true;
     } catch (error) {
       console.log(error);
@@ -148,12 +142,9 @@ export const useExamStore = create<IState>((set) => ({
       const resp = await examService.getHistory(id);
       const submissions = {};
 
-      console.log("resp", resp);
-
       resp.data.submissions.forEach((s) => {
         submissions[s.examQuestion.id] = s;
       });
-      console.log("submissions", submissions);
       set((state) => ({
         ...state,
         history: {
