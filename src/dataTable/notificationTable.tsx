@@ -16,7 +16,7 @@ export const notificationSchemas: TableSchema[] = [
     prop: "content",
     type: "text",
     render: (row, record) => {
-      return <div dangerouslySetInnerHTML={{ __html: row }}></div>
+      return <div className="tw-line-clamp-3" dangerouslySetInnerHTML={{ __html: row }}></div>
     }
   },
   {
