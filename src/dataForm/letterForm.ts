@@ -35,9 +35,9 @@ export const LetterForm: IForm[] = [
       },
       {
         prop: "reason",
-        type: "textarea",
+        type: "editor",
         label: "Lý do",
-        col: 6,
+        col: 12,
       },
       {
         prop: "image",

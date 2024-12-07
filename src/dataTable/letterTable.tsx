@@ -20,6 +20,9 @@ export const letterSchemas: TableSchema[] = [
     label: "Lý do",
     prop: "reason",
     type: "text",
+    render: (row, record) => {
+      return <div className="tw-line-clamp-3" dangerouslySetInnerHTML={{ __html: row }}></div>
+    }
   },
   {
     label: "Trạng thái",

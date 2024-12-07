@@ -2,6 +2,7 @@ export * from "./upload-file";
 export * from "./local-store";
 export * from "./export-excel";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import { BASE_URL } from "../constants";
 
 export function randomString(length: number) {
   let result = "";
@@ -48,3 +49,8 @@ export const getPastDate = (space?: number) => {
 export const getIndex = (index: number, rowPerPage: number, page: number) => {
   return (page - 1) * rowPerPage + (index + 1);
 };
+
+export function getImageServer(url: string) {
+  if (url.includes("uploads/")) return `${BASE_URL}/${url}`;
+  return url;
+}
