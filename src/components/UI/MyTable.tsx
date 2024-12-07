@@ -284,6 +284,15 @@ const MyTable: FC<IMyTable> = ({
               </MyCard>
             );
           })}
+          {data?.length == 0 && <MyCard>
+            {schemas.map((s) => {
+              return (
+                <div >
+                  {s.label}:{" "}
+                  <strong>---</strong>
+                </div>
+              );
+            })}</MyCard>}
         </div>
       )}
     </>

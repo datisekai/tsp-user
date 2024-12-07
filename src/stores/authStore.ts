@@ -19,15 +19,23 @@ export const useAuthStore = create<IState>((set) => ({
   token: getObjectLocalData(localKey.TOKEN) || "",
   login: async (code: string, password: string) => {
     const deviceId = await getDeviceId();
-    const result = await AuthService.login(code, password, deviceId as string);
-    if (result) {
-      const token = result.accessToken;
-      setObjectLocalData(localKey.TOKEN, token);
-      set((state) => ({ ...state, token }));
-      useUserStore.getState().getMe();
-    }
+    try {
+      const result = await AuthService.login(
+        code,
+        password,
+        deviceId as string
+      );
+      if (result) {
+        const token = result.accessToken;
+        setObjectLocalData(localKey.TOKEN, token);
+        set((state) => ({ ...state, token }));
+        useUserStore.getState().getMe();
+      }
 
-    return !!result;
+      return !!result;
+    } catch (error) {
+      return false;
+    }
   },
   logout: () => {
     removeLocalItem(localKey.TOKEN);
