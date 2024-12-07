@@ -65,7 +65,6 @@ const CodeHtml: React.FC<Props> = ({
 
   useEffect(() => {
     const submission = submissions[examQuestion.id];
-    console.log("submission", submission);
     setCode(submission?.answer || question?.initCode || "");
     setInitCode(submission?.answer || question?.initCode || "");
   }, [submissions, examQuestion.id]);

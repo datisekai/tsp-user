@@ -15,7 +15,6 @@ export const useLetterStore = create<IState>((set, get) => ({
   getAll: async (query) => {
     try {
       const resp = await letterService.getAll(query);
-      console.log("🚀 ~ getAll: ~ resp:", resp);
 
       set((state) => ({
         ...state,

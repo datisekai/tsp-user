@@ -7,6 +7,7 @@ import NotificationModal from "../components/Modal/NotificationModal";
 import LetterModal from "../components/Modal/LetterModal";
 import ScanQrModal from "../components/Modal/ScanQrModal";
 import UpdateProfileModal from "../components/Modal/UpdateProfileModal.tsx";
+import JoinClassModal from "../components/Modal/JoinClassModal.tsx";
 
 const DynamicModal = () => {
   const { modalName, onDismiss, visible, footer, header, style, content } =
@@ -33,9 +34,8 @@ const DynamicModal = () => {
       {modalName === ModalName.NOTIFICATION && <NotificationModal />}
       {modalName === ModalName.LETTER && <LetterModal />}
       {modalName === ModalName.SCAN_QR && <ScanQrModal />}
-      {
-        modalName === ModalName.UPDATE_PROFILE && <UpdateProfileModal/>
-      }
+      {modalName === ModalName.UPDATE_PROFILE && <UpdateProfileModal />}
+      {modalName === ModalName.JOIN_CLASS && <JoinClassModal />}
     </Dialog>
   );
 };

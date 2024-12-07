@@ -16,6 +16,11 @@ export const sidebarData: IMenuItem[] = [
     icon: "pi pi-users",
     path: pathNames.ATTENDANCE,
   },
+  {
+    title: "Lớp học",
+    icon: "pi pi-database",
+    path: pathNames.CLASS,
+  },
   // {
   //   title: "Bảng điểm",
   //   icon: "pi pi-face-smile",

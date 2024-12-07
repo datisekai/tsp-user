@@ -1,15 +1,15 @@
-import {Calendar} from "primereact/calendar";
-import {Dropdown} from "primereact/dropdown";
-import {InputNumber} from "primereact/inputnumber";
-import {InputSwitch} from "primereact/inputswitch";
-import {InputText} from "primereact/inputtext";
-import {InputTextarea} from "primereact/inputtextarea";
-import {MultiSelect} from "primereact/multiselect";
-import React, {useEffect, useMemo, useState} from "react";
-import {Controller} from "react-hook-form";
-import {useWindowSize} from "usehooks-ts";
-import {sendServerRequest} from "../../apis";
-import {IFormItem, IOption} from "../../types/form-item";
+import { Calendar } from "primereact/calendar";
+import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from "primereact/inputnumber";
+import { InputSwitch } from "primereact/inputswitch";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import { MultiSelect } from "primereact/multiselect";
+import React, { useEffect, useMemo, useState } from "react";
+import { Controller } from "react-hook-form";
+import { useWindowSize } from "usehooks-ts";
+import { sendServerRequest } from "../../apis";
+import { IFormItem, IOption } from "../../types/form-item";
 import MyEditor from "../UI/MyEditor";
 import MyUploadSingleImage from "../UI/MyUploadSingleImage";
 
@@ -33,7 +33,7 @@ const FormItem: React.FC<IForm> = ({
   watch,
   preConditionProp,
   required = true,
-    disabled
+  disabled,
 }) => {
   const windowSize = useWindowSize();
 
@@ -49,7 +49,6 @@ const FormItem: React.FC<IForm> = ({
   );
 
   useEffect(() => {
-    console.log("change", watch);
     if (preConditionProp && type === "select-ajax" && watch) {
       getAjaxOptions({ [preConditionProp]: watch });
     }
@@ -145,7 +144,7 @@ const FormItem: React.FC<IForm> = ({
             disabled={disabled || false}
             value={value}
             onBlur={onBlur}
-            dateFormat={'dd/mm/yy'}
+            dateFormat={"dd/mm/yy"}
             onChange={(e) =>
               onChange({ target: { value: e.value, name: prop } })
             }
@@ -192,8 +191,6 @@ const FormItem: React.FC<IForm> = ({
             name={prop}
             disabled={disabled || false}
             onChange={(e) => {
-              console.log("🚀 ~ getInputComponent ~ e:", e);
-
               onChange(e);
             }}
             filter

@@ -78,6 +78,10 @@ export const apiConfig = {
       method: "GET",
       endpoint: "/api.class/me",
     },
+    join: {
+      method: "POST",
+      endpoint: "/api.class/join-class/:secretKey",
+    },
   },
   letter: {
     getAll: {
