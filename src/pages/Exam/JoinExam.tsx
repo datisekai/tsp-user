@@ -42,7 +42,7 @@ const JoinExam = () => {
       e.preventDefault();
       cheatActionsQueue.current.push(CheatAction.MOUSE_RIGHT);
       showToast({
-        severity: "danger",
+        severity: "error",
         summary: "Cảnh báo",
         message: "Vui lòng không dùng chuột phải!",
       });
@@ -55,7 +55,7 @@ const JoinExam = () => {
       ) {
         e.preventDefault();
         showToast({
-          severity: "danger",
+          severity: "error",
           summary: "Cảnh báo",
           message: "Vui lòng không Copy, Cut, Paste!",
         });
@@ -70,7 +70,7 @@ const JoinExam = () => {
           header: "Cảnh báo",
           icon: "pi pi-ban",
           message: "Vui lòng không chuyển tab khi làm bài!",
-          onAccept: () => {},
+          onAccept: () => { },
         });
       }
     };
@@ -171,11 +171,18 @@ const JoinExam = () => {
     );
   }, [currentExam, submissions]);
 
+  const endTime = useMemo(() => {
+    if (!currentExam) return new Date()
+    const startDate = new Date(currentExam.startTime).getTime()
+    return new Date(startDate + (currentExam.duration * 60 * 1000))
+  }, [currentExam])
+
+  console.log('endTime', endTime.getTime());
+
   return (
     <div
-      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${
-        currentExam?.blockControlCVX ? "tw-select-none" : ""
-      }`}
+      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${currentExam?.blockControlCVX ? "tw-select-none" : ""
+        }`}
     >
       <MyCard containerClassName={"tw-flex-1 tw-h-full"}>
         <MyLoading isLoading={!examQuestion || !currentExam}>
@@ -231,11 +238,11 @@ const JoinExam = () => {
       </MyCard>
       <MyCard containerClassName={"tw-w-full md:tw-w-[15%] tw-relative"}>
         <h3>Thời gian làm bài</h3>
-        {currentExam.endTime && (
+        {currentExam.endTime && currentExam.duration && (
           <div>
             <Countdown
               className={"tw-font-bold tw-text-lg"}
-              date={new Date(currentExam?.endTime).getTime()}
+              date={endTime}
             />
           </div>
         )}

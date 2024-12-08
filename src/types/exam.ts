@@ -8,6 +8,7 @@ export interface IHistoryExam {
   submissions: Submission[];
   examLogs: { startTime: Date; endTime: Date }[];
   codeHtml?: any;
+  duration: number;
 }
 
 interface Class {
@@ -46,6 +47,7 @@ export interface IJoinExam {
   description?: string;
   startTime: string;
   endTime: string;
+  duration: number;
   examQuestions: IExamQuestion[];
   submissions: ISubmission[];
   showResult: boolean;

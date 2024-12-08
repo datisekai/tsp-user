@@ -33,13 +33,14 @@ const CodeHtml: React.FC<Props> = ({
 }) => {
   const { question } = examQuestion;
   const { title, content } = question;
-  const [initCode, setInitCode] = useState(question.initCode || "");
+  const [initCode, setInitCode] = useState<any>(question.initCode || "");
   const { isLoadingApi } = useCommonStore();
   const [code, setCode] = useState({
     html: "",
     css: "",
     javascript: "",
   });
+  console.log('initCode', initCode);
   const { onConfirm } = useConfirm();
   const { submitCode, submissions, submitCodeHtml } = useExamStore();
   const { showToast } = useToast();
@@ -68,6 +69,7 @@ const CodeHtml: React.FC<Props> = ({
     setCode(submission?.answer || question?.initCode || "");
     setInitCode(submission?.answer || question?.initCode || "");
   }, [submissions, examQuestion.id]);
+
 
   return (
     <div
@@ -99,9 +101,9 @@ const CodeHtml: React.FC<Props> = ({
           key={`${examQuestion.id}-${JSON.stringify(initCode)}`}
           onChange={setCode}
           heightItem="30vh"
-          htmlInitialValue={code?.html || ""}
-          cssInitialValue={code?.css || ""}
-          jsInitialValue={code?.javascript || ""}
+          htmlInitialValue={initCode?.html || ""}
+          cssInitialValue={initCode?.css || ""}
+          jsInitialValue={initCode?.javascript || ""}
         />
       </div>
     </div>

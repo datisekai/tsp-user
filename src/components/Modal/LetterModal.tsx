@@ -5,6 +5,7 @@ import { INotification } from "../../types/notification";
 import { LetterTypeData } from "../../constants";
 import { LetterStatus } from "../../types/letter";
 import { Tag } from "primereact/tag";
+import { getImageServer } from "../../utils";
 
 function getStatus(value: string) {
   switch (value) {
@@ -46,7 +47,7 @@ const LetterModal = () => {
           </div>
           <div>
             Trạng thái:{" "}
-            <Tag severity={status.severity as any} value={status.value}/>
+            <Tag severity={status.severity as any} value={status.value} />
           </div>
           <div>
             Ngày tạo:{" "}
@@ -67,13 +68,13 @@ const LetterModal = () => {
             </strong>
           </div>
           <div>
-            Lý do: <strong>{content.reason}</strong>
+            Lý do: <div dangerouslySetInnerHTML={{ __html: content.reason }}></div>
           </div>
         </div>
         {content.image && (
-            <div className="tw-flex-1">
-              <img src={content.image} alt="image" className="tw-w-full"/>
-            </div>
+          <div className="tw-flex-1">
+            <img src={getImageServer(content.image)} alt="image" className="tw-w-full" />
+          </div>
         )}
       </div>
     </div>

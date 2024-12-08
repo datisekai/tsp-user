@@ -35,11 +35,10 @@ const getStatus = (exam: IHistoryExam) => {
   }
 
   const now = Date.now();
+  const endTime =
+    new Date(exam.startTime).getTime() + exam.duration * 60 * 1000;
 
-  if (
-    now >= new Date(exam.startTime).getTime() &&
-    now <= new Date(exam.endTime).getTime()
-  ) {
+  if (now >= new Date(exam.startTime).getTime() && now <= endTime) {
     return "active";
   }
 

@@ -55,7 +55,7 @@ const MultiChoice: React.FC<Props> = ({ examQuestion, index, examId }) => {
               onChange={(e) => setChoose(e.value)}
               checked={choose == index + 1}
             />
-            <label htmlFor={`choice-${index}`} className="ml-2">
+            <label htmlFor={`choice-${index}-${id}`} className="ml-2">
               {choice.text}
             </label>
           </div>
