@@ -23,21 +23,21 @@ const Attendance = () => {
     setHeaderTitle("Điểm danh");
     getMe({ pagination: false });
     setHeaderActions([
-      {
-        icon: "pi pi-download",
-        title: "Export excel",
-        onClick: () => {
-          const dataExcel = attendances.map((item) => ({
-            "Môn học": item.attendance.class.major.name,
-            "Lớp học": item.attendance.class.name,
-            "Giảng viên": item.attendance.class.teachers
-              .map((t) => t.name)
-              .join(", "),
-            "Thời gian": dayjs(item.createdAt).format("DD/MM/YYYY HH:mm"),
-          }));
-          exportToExcel(dataExcel, `DIEM_DANH_${Date.now()}.xlsx`);
-        },
-      },
+      // {
+      //   icon: "pi pi-download",
+      //   title: "Export excel",
+      //   onClick: () => {
+      //     const dataExcel = attendances.map((item) => ({
+      //       "Môn học": item.attendance.class.major.name,
+      //       "Lớp học": item.attendance.class.name,
+      //       "Giảng viên": item.attendance.class.teachers
+      //         .map((t) => t.name)
+      //         .join(", "),
+      //       "Thời gian": dayjs(item.createdAt).format("DD/MM/YYYY HH:mm"),
+      //     }));
+      //     exportToExcel(dataExcel, `DIEM_DANH_${Date.now()}.xlsx`);
+      //   },
+      // },
     ]);
     return () => {
       resetActions();
