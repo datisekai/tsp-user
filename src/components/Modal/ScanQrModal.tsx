@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner';
 import { useToast } from '../../hooks';
 import { Button } from 'primereact/button';
-import { useAttendanceStore, useModalStore, useSocketStore, useUserStore } from '../../stores';
-import { useNavigate } from 'react-router-dom';
+import { useAttendanceStore, useCommonStore, useModalStore, useSocketStore, useUserStore } from '../../stores';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { pathNames } from '../../constants';
 
 
@@ -16,13 +16,14 @@ const ScanQrModal = () => {
     const navigate = useNavigate();
     const { onDismiss } = useModalStore()
     const { user } = useUserStore()
+    const { location } = useCommonStore()
     const { getAll } = useAttendanceStore()
 
     const handleScan = (result: IDetectedBarcode[]) => {
         if (!socket) return showToast({ severity: "danger", summary: "Thông báo", message: "Không thể kết nối tới máy chủ", life: 3000 });
         const qrCode = result[0].rawValue;
         if (qrCode) {
-            socket.emit('checkQRCode', { code: user.code, qrCode }, (response: any) => {
+            socket.emit('checkQRCode', { code: user.code, qrCode, location }, (response: any) => {
                 const { message, success } = response;
                 const severity = success ? 'success' : 'info';
                 showToast({ summary: "Thông báo", message, life: 300000, severity });

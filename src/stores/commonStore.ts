@@ -31,6 +31,8 @@ interface ICommonState {
   setLoading: (isLoading: boolean) => void;
   setLoadingUpload: (key: string, isLoading: boolean) => void;
   resetActions: () => void;
+  setLocation: (location: { latitude?: number; longitude?: number }) => void;
+  location: { latitude?: number; longitude?: number };
 }
 
 export const useCommonStore = create<ICommonState>((set) => ({
@@ -47,6 +49,10 @@ export const useCommonStore = create<ICommonState>((set) => ({
     visible: false,
     footer: "",
     header: "",
+  },
+  location: {
+    latitude: 0,
+    longitude: 0,
   },
   setHeaderTitle: (title: string) => {
     set((state) => ({
@@ -89,6 +95,12 @@ export const useCommonStore = create<ICommonState>((set) => ({
       ...state,
       header: { ...state.header, actions: [] },
       footer: { ...state.footer, actions: [] },
+    }));
+  },
+  setLocation: (location) => {
+    set((state) => ({
+      ...state,
+      location,
     }));
   },
 }));

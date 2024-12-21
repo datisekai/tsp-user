@@ -12,17 +12,21 @@ interface IToastContext {
 interface IToast {
   message?: string;
   severity?:
-    | "info"
-    | "success"
-    | "warning"
-    | "danger"
-    | "secondary"
-    | "contrast"
-    | "error";
+  | "info"
+  | "success"
+  | "warning"
+  | "danger"
+  | "secondary"
+  | "contrast"
+  | "error";
   summary?: string;
   life?: number;
 }
 
+const translateSeverity = (severity: string) => {
+  if (severity === "danger") return "error";
+  return severity;
+};
 export const ToastContext = createContext<IToastContext | undefined>(undefined);
 
 const ToastProvider: React.FC<IToastProvider> = ({ children }) => {
@@ -38,7 +42,7 @@ const ToastProvider: React.FC<IToastProvider> = ({ children }) => {
       } = data;
       toastRef.current.show({
         summary,
-        severity,
+        severity: translateSeverity(severity),
         detail: message,
         life,
       });

@@ -1,28 +1,31 @@
-import {ProgressSpinner} from "primereact/progressspinner";
-import {useEffect, useState} from "react";
-import {Outlet, useNavigate} from "react-router-dom";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import MyFooterAction from "../components/UI/MyFooterAction";
 import MyHeader from "../components/UI/MyHeader";
 import MySideBar from "../components/UI/MySideBar";
-import {ModalName, pathNames} from "../constants";
-import {useAuthStore, useModalStore} from "../stores";
-import {useSocketStore} from "../stores/socketStore";
-import {useUserStore} from "../stores/userStore";
-import {useExamStore} from "../stores/examStore";
-import {useLanguageStore} from "../stores/languageStore.ts";
+import { ModalName, pathNames } from "../constants";
+import { useAuthStore, useCommonStore, useModalStore } from "../stores";
+import { useSocketStore } from "../stores/socketStore";
+import { useUserStore } from "../stores/userStore";
+import { useExamStore } from "../stores/examStore";
+import { useLanguageStore } from "../stores/languageStore.ts";
+import { useToast } from "../hooks/useToast.ts";
 
 const AuthLayout = () => {
     const [isSidebarVisible, setIsSidebarVisible] = useState(
         window.innerWidth >= 768
     );
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    const {user, getMe} = useUserStore();
-    const {token} = useAuthStore();
+    const { user, getMe } = useUserStore();
+    const { token } = useAuthStore();
     const navigate = useNavigate();
-    const {connectSocket, disconnectSocket} = useSocketStore();
+    const { connectSocket, disconnectSocket } = useSocketStore();
     const getExam = useExamStore(state => state.getAll)
     const getLanguage = useLanguageStore(state => state.getAll)
     const onToggle = useModalStore(state => state.onToggle)
+    const { setLocation } = useCommonStore()
+    const { showToast } = useToast()
 
     useEffect(() => {
         if (!token) {
@@ -41,6 +44,7 @@ const AuthLayout = () => {
         connectSocket();
 
         initData()
+        handleLocation()
 
         return () => {
             window.removeEventListener("resize", handleResize);
@@ -48,16 +52,36 @@ const AuthLayout = () => {
         };
     }, []);
 
+    const handleLocation = () => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const location = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                }
+                setLocation(location)
+            },
+            (error) => {
+                showToast({
+                    severity: "error",
+                    summary: "Lỗi",
+                    message: "Không thể lấy vị trí",
+                })
+                console.log(error);
+            }
+        )
+    }
+
 
     useEffect(() => {
         if (user && Object.keys(user).length > 0 && !user?.name) {
             onToggle(ModalName.UPDATE_PROFILE, {
-                    header: "Cập nhật hồ sơ",
-                    content: {
-                        closeable: user?.name ? true : false
-                    },
-                style:"!tw-w-[30rem]",
-                }
+                header: "Cập nhật hồ sơ",
+                content: {
+                    closeable: user?.name ? true : false
+                },
+                style: "!tw-w-[30rem]",
+            }
             );
         }
 
@@ -78,7 +102,7 @@ const AuthLayout = () => {
     if (!user || Object.keys(user).length == 0) {
         return (
             <div className="tw-fixed tw-inset-0  tw-flex tw-justify-center tw-items-center">
-                <ProgressSpinner/>
+                <ProgressSpinner />
             </div>
         );
     }
@@ -98,11 +122,11 @@ const AuthLayout = () => {
                 />
                 <main
                     className={`tw-flex-1 tw-p-4 tw-pt-24 tw-pb-24 tw-transition-all tw-duration-300 ${isSidebarVisible ? "md:tw-ml-80" : "md:tw-ml-0"
-                    }`}
+                        }`}
                 >
-                    <Outlet/>
+                    <Outlet />
                 </main>
-                <MyFooterAction isSidebarVisible={isSidebarVisible}/>
+                <MyFooterAction isSidebarVisible={isSidebarVisible} />
             </div>
         </div>
     );
