@@ -22,11 +22,13 @@ const ScanQrModal = () => {
     const handleScan = (result: IDetectedBarcode[]) => {
         if (!socket) return showToast({ severity: "danger", summary: "Thông báo", message: "Không thể kết nối tới máy chủ", life: 3000 });
         const qrCode = result[0].rawValue;
+        showToast({ summary: "Debug", message: `Location: ${location.latitude},${location.longitude}`, life: 3000, severity: "info" });
+
         if (qrCode) {
             socket.emit('checkQRCode', { code: user.code, qrCode, location }, (response: any) => {
                 const { message, success } = response;
                 const severity = success ? 'success' : 'info';
-                showToast({ summary: "Thông báo", message, life: 300000, severity });
+                showToast({ summary: "Thông báo", message, life: 3000, severity });
 
                 if (success) {
                     setPaused(true);
