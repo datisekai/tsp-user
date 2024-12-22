@@ -70,7 +70,11 @@ const LetterModal = () => {
           <div>
             Lý do: <div dangerouslySetInnerHTML={{ __html: content.reason }}></div>
           </div>
+          <div className="tw-font-bold text-primary">
+            Ghi chú từ GV: {content?.note || "Không có"}
+          </div>
         </div>
+
         {content.image && (
           <div className="tw-flex-1">
             <img src={getImageServer(content.image)} alt="image" className="tw-w-full" />
