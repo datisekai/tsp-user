@@ -70,7 +70,7 @@ const JoinExam = () => {
           header: "Cảnh báo",
           icon: "pi pi-ban",
           message: "Vui lòng không chuyển tab khi làm bài!",
-          onAccept: () => { },
+          onAccept: () => {},
         });
       }
     };
@@ -172,17 +172,36 @@ const JoinExam = () => {
   }, [currentExam, submissions]);
 
   const endTime = useMemo(() => {
-    if (!currentExam) return new Date()
-    const startDate = new Date(currentExam.startTime).getTime()
-    return new Date(startDate + (currentExam.duration * 60 * 1000))
-  }, [currentExam])
+    if (!currentExam || (currentExam && !currentExam.logStartTime))
+      return new Date();
+    const startDate = new Date(currentExam.logStartTime).getTime();
+    return new Date(startDate + currentExam.duration * 60 * 1000);
+  }, [currentExam]);
 
-  console.log('endTime', endTime.getTime());
+  const handleEndExam = async () => {
+    const success = await submitExam(currentExam.id);
+    if (success) {
+      showToast({
+        severity: "success",
+        summary: "Thông báo",
+        message:
+          "Thời gian làm bài đã kết thúc, hệ thống tự động nộp bài thành công.",
+      });
+      navigate(pathNames.EXAM);
+      return;
+    }
+    showToast({
+      severity: "danger",
+      summary: "Thông báo",
+      message: "Nộp bài thất bại.",
+    });
+  };
 
   return (
     <div
-      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${currentExam?.blockControlCVX ? "tw-select-none" : ""
-        }`}
+      className={` tw-flex tw-flex-col-reverse md:tw-flex-row tw-gap-4  ${
+        currentExam?.blockControlCVX ? "tw-select-none" : ""
+      }`}
     >
       <MyCard containerClassName={"tw-flex-1 tw-h-full"}>
         <MyLoading isLoading={!examQuestion || !currentExam}>
@@ -241,6 +260,7 @@ const JoinExam = () => {
         {currentExam.endTime && currentExam.duration && (
           <div>
             <Countdown
+              onComplete={handleEndExam}
               className={"tw-font-bold tw-text-lg"}
               date={endTime}
             />

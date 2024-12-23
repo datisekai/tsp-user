@@ -54,6 +54,7 @@ export interface IJoinExam {
   logOutTab: boolean;
   blockMouseRight: boolean;
   blockControlCVX: boolean;
+  logStartTime: string;
 }
 
 export interface IExamQuestion {
